@@ -1,0 +1,40 @@
+.hsa-auction {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    cursor: pointer;
+    padding: 1rem;
+    background-color: var(--black);
+    border: 1px solid var(--purple);
+    border-radius: 0.6rem;
+    width: 18rem;
+    text-align: center;
+}
+
+.hsa-info {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.hsa-title {
+    font-weight: bold;
+}
+
+.hsa-info-column p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hsa-info-column span {
+    color: var(--gray-light);
+    font-size: 0.9rem;
+}

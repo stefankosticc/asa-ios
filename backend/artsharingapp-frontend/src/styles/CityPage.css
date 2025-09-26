@@ -1,0 +1,86 @@
+.city-page {
+    overflow-y: scroll;
+    height: 100%;
+    width: 100%;
+}
+
+.cp-city-header {
+    background: var(--blue);
+    height: 42%;
+    position: relative;
+}
+
+.cp-city-header svg {
+    color: var(--black);
+    font-size: 6rem;
+    margin-top: -1rem;
+}
+
+.cp-icon-wrapper {
+    position: absolute;
+    left: 20%;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.cp-city-name {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.cp-country {
+    font-weight: 300;
+}
+
+.cp-content {
+    margin: 1rem 20% 4rem 20%;
+}
+
+.cp-info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cp-city-galleries {
+    background-color: var(--black-highlight);
+    /* width: 100%; */
+    height: 15rem;
+    width: calc(100% + 8rem);
+    margin-inline: -4rem;
+    border-radius: 0.6rem;
+    margin-top: 0.4rem;
+    padding: 1rem 1.6rem;
+    display: flex;
+    gap: 0.4rem;
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+.cp-city-galleries-not-found {
+    align-self: center;
+    width: 100%;
+    text-align: center;
+    color: var(--gray);
+}
+
+.cp-artwork-grid {
+    margin-top: 6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    column-gap: 0.6rem;
+    row-gap: 1rem;
+    width: 100%;
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
+}
+
+.cp-artwork-grid .artwork-card {
+    width: 100%;
+    height: 100%;
+}

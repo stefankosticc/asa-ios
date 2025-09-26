@@ -1,0 +1,6 @@
+﻿services:
+  artsharingapp.backend:
+    image: artsharingapp.backend
+    build:
+      context: .
+      dockerfile: ArtSharingApp.Backend/Dockerfile

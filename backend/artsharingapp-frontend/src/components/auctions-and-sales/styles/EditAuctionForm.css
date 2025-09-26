@@ -1,0 +1,41 @@
+.psm-edit-auction-label {
+    font-size: 0.9rem;
+    color: var(--gray-light);
+}
+
+.psm-edit-auction-data {
+    border: 1px solid var(--gray);
+    outline: none;
+    background-color: transparent;
+    height: 2rem;
+    color: var(--gray-light);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.2rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.psm-edit-auction-currency {
+    font-size: 0.9rem;
+    color: var(--gray-light);
+    display: flex;
+    align-items: center;
+}
+
+.psm-auction-form {
+    position: relative;
+}
+
+#psm-end-auction-btn {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    border: none;
+    background-color: transparent;
+    color: var(--red);
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+    cursor: pointer;
+    margin-top: 0.4rem;
+}

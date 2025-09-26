@@ -1,0 +1,16 @@
+.transfer-modal-container {
+    height: auto;
+    min-height: fit-content;
+    max-height: 60%;
+}
+
+.transfer-cancel-btn {
+    width: 10%;
+    padding: 0.4rem 0.6rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0.2rem;
+    background-color: var(--gray-light);
+    color: var(--black);
+}

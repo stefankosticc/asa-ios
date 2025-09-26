@@ -1,0 +1,54 @@
+.fm-container {
+    position: relative;
+    width: 48%;
+    height: 80%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.fm-close {
+    font-size: 1.8rem;
+    position: absolute;
+    top: 1rem;
+    left: 1.2rem;
+    cursor: pointer;
+    color: var(--gray);
+}
+
+.fm-nav-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.fm-nav-container button {
+    color: var(--gray-light);
+    text-decoration: underline;
+    text-underline-offset: 0.4rem;
+    font-size: 0.9rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.fm-nav-container button.active {
+    color: var(--purple);
+}
+
+.fm-users {
+    width: 100%;
+    padding: 2rem 1rem;
+}
+
+
+.fm-users:has(.fm-no-results) {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fm-no-results {
+    color: var(--gray-light);
+}

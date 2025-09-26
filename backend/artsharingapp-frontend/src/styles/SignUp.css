@@ -1,0 +1,44 @@
+.sign-up-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+    padding: 0 5rem;
+    gap: 4rem;
+    background-color: var(--purple-light);
+    color: var(--black);
+}
+
+.sign-up-error {
+    width: 100%;
+    padding: 0.2rem;
+    background-color: var(--red-light);
+    color: var(--red);
+    border-radius: 0.4rem;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.8rem;
+    margin-top: 0.6rem;
+}
+
+#signup-go-to-login {
+    margin: 0.8rem 0 0.4rem 0;
+    font-size: 0.8rem;
+    color: var(--gray-light);
+}
+
+#signup-go-to-login a {
+    color: var(--black);
+}
+
+#signup-go-to-login a:hover {
+    color: var(--cyan);
+}
+
+.signup-placeholder {
+    height: 90%;
+    width: 100%;
+    background: radial-gradient(circle at 50% 50%, #aca3ff, #3c21ba, #08060e);
+    border-radius: 1rem;
+}

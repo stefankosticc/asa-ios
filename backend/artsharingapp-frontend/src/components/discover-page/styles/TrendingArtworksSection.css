@@ -1,0 +1,17 @@
+.tas-container .afc-container {
+    width: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 0 0 auto;
+
+    .afc-img {
+        height: 70%;
+    }
+
+    .afc-description {
+        gap: 1rem;
+        padding: 0rem 1rem;
+        margin: auto 0;
+    }
+}

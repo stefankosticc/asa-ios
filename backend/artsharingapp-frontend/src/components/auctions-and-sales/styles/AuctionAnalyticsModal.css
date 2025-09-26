@@ -1,0 +1,81 @@
+.aam-container {
+    width: 70%;
+    height: 80%;
+    position: relative;
+}
+
+.aam-close {
+    font-size: 1.8rem;
+    position: absolute;
+    top: 1rem;
+    left: 1.2rem;
+    cursor: pointer;
+    color: var(--gray);
+}
+
+.aam-close:hover {
+    color: var(--gray-light);
+}
+
+.aam-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+.aam-sidebar {
+    width: 24%;
+    height: 100%;
+    border-right: 0.5px solid var(--gray);
+    overflow-y: scroll;
+}
+
+.aam-sidebar-section {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    color: var(--gray-light);
+}
+
+.aam-auction {
+    height: 5rem;
+    margin-right: 0.4rem;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    border-radius: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--black-highlight);
+}
+
+.aam-sidebar:has(.aam-auction-not-found) {
+    display: flex;
+    align-items: center;
+}
+
+.aam-auction-not-found {
+    color: var(--gray);
+}
+
+.aam-auction-time {
+    font-size: 0.8rem;
+    color: var(--gray-light);
+    width: min-content;
+    text-align: center;
+}
+
+.aam-arrow {
+    font-size: 0.9rem;
+    color: var(--gray-light);
+}
+
+.aam-offers {
+    height: 100%;
+    width: calc(100% - 24%);
+    margin-left: 0.8rem;
+    overflow: hidden;
+    overflow-y: scroll;
+}

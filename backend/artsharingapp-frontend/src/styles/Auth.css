@@ -1,0 +1,124 @@
+.auth-back-link {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-size: 1.6rem;
+    color: var(--black);
+}
+
+.auth-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 70%;
+    border-radius: 0.6rem;
+}
+
+.auth-card h1 {
+    margin-bottom: 1.5rem;
+}
+
+/* THIRD PARTY AUTH */
+
+.third-party-auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.third-party-auth button {
+    width: 80%;
+    padding: 0 0.8rem;
+    background-color: var(--white);
+    color: var(--black);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.4rem;
+}
+
+.third-party-auth button:hover {
+    background-color: var(--gray-lighter);
+}
+
+.third-party-auth-icon {
+    width: 1rem;
+    height: 1rem;
+    margin: 0.5rem;
+}
+
+/* DIVIDER */
+
+.auth-or-divider {
+    width: 80%;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.auth-divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--gray-light);
+}
+
+.auth-or-text {
+    padding: 0 0.8rem;
+    color: var(--gray-light);
+}
+
+/* AUTH FORM */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+}
+
+.auth-form-field {
+    width: 100%;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-form-field:first-child {
+    margin-top: 0;
+}
+
+.auth-form-field input {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.4rem;
+    border: none;
+}
+
+.auth-form-field label {
+    margin: 0 0 0.2rem 0.2rem;
+    color: var(--gray-light);
+    font-size: 0.9rem;
+}
+
+.auth-form-field input:focus {
+    border: 1px solid var(--purple);
+    outline: none;
+}
+
+.auth-form button {
+    width: 80%;
+    padding: 0.42rem 0;
+    background-color: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}

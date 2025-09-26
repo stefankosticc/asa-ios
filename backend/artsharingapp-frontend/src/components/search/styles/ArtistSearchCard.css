@@ -1,0 +1,40 @@
+.artist-sc-container {
+    width: 100%;
+    display: flex;
+    height: fit-content;
+    align-items: center;
+    padding: 0.2rem 0.2rem 0.2rem 0;
+    cursor: pointer;
+    border-radius: 0.6rem;
+    gap: 1rem;
+}
+
+.artist-sc-container:hover {
+    background-color: #1C1C1C;
+}
+
+.artist-sc-img-container {
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artist-sc-picture {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.artist-sc-details {
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.artist-sc-username {
+    color: var(--gray-light);
+}

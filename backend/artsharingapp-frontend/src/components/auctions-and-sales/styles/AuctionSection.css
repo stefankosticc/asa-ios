@@ -1,0 +1,99 @@
+.auction-section-container {
+    padding: 1rem;
+    margin-left: -1rem;
+}
+
+.auction-section-container {
+    --section-border-color: var(--purple);
+    border: 1px solid #0000;
+    border-radius: 0.4rem;
+    background: linear-gradient(var(--black), var(--black)) padding-box, linear-gradient(var(--angle),
+            #070707,
+            var(--section-border-color)) border-box;
+    animation: 8s rotate linear infinite;
+}
+
+@keyframes rotate {
+    to {
+        --angle: 360deg;
+    }
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.auction-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.auction-section-time {
+    font-size: 0.8rem;
+    color: var(--gray-light);
+}
+
+.auction-section-container hr {
+    border: 0.5px solid var(--black-highlight);
+    margin: 0.4rem 0.2rem 1rem 0.2rem;
+}
+
+.auction-section-content {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.auction-section-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.auction-section-column-info {
+    margin: 0.6rem 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--gray-light);
+}
+
+.auction-section-offer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    width: 100%;
+    margin: 0.4rem 0;
+}
+
+.auction-section-offer input {
+    width: 6rem;
+    border: 0.5px solid var(--gray);
+    border-radius: 0.2rem;
+    background-color: transparent;
+    padding: 0.4rem;
+    outline: none;
+    color: var(--white);
+
+}
+
+.auction-section-offer button {
+    background-color: var(--gray-light);
+    border: none;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+    padding: 0.2rem;
+}
+
+.auction-section-offer button:hover {
+    background-color: var(--purple);
+}

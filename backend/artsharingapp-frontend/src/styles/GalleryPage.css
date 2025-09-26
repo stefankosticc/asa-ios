@@ -1,0 +1,73 @@
+.gallery-page {
+    overflow-y: scroll;
+    height: 100%;
+    width: 100%;
+}
+
+.gp-gallery-header {
+    background: var(--orange);
+    height: 42%;
+    position: relative;
+}
+
+.gp-gallery-header svg {
+    color: var(--black);
+    font-size: 6rem;
+    margin-top: -1rem;
+}
+
+.gp-icon-wrapper {
+    position: absolute;
+    left: 20%;
+    bottom: 0;
+    padding-bottom: 0.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.gp-gallery-header span {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.gp-content {
+    margin: 1rem 20% 4rem 20%;
+}
+
+.gp-info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.gp-info p {
+    padding: 0.2rem 0.8rem;
+    border: 1px solid var(--gray-light);
+    color: var(--gray-light);
+    border-radius: 1rem;
+    width: fit-content;
+}
+
+.gp-city-name:hover {
+    background-color: rgba(30, 144, 255, 0.2);
+    color: var(--blue);
+    border-color: var(--blue);
+    cursor: pointer;
+}
+
+.gp-artwork-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    column-gap: 3rem;
+    row-gap: 1rem;
+    width: 100%;
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
+}
+
+.gp-artwork-grid .artwork-card {
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,7 @@
+.countdown-expired {
+    color: var(--orange);
+}
+
+.countdown-urgent {
+    color: var(--red);
+}

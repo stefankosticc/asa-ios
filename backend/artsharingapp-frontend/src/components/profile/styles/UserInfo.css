@@ -1,0 +1,98 @@
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4rem 0 1.4rem 2rem;
+    white-space: nowrap;
+    max-width: 20%;
+    min-width: 15%;
+    overflow-wrap: anywhere;
+    position: relative;
+}
+
+.profile-picture {
+    width: 6rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--gray-light);
+}
+
+.profile-name {
+    font-size: 1rem;
+    white-space: wrap;
+    text-align: center;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.profile-username {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.profile-following {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.profile-follow-count {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profile-follow-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.profile-follow-btn {
+    width: 100%;
+    border: none;
+    padding: 0.2rem 1rem;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: var(--purple);
+}
+
+.profile-follow-btns svg {
+    background-color: var(--white);
+    color: var(--black);
+    padding: 0.2rem 0.2rem;
+    border-radius: 0.2rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+#profile-edit-cancel-btn {
+    background-color: var(--gray-light);
+}
+
+.profile-settings {
+    position: absolute;
+    bottom: 0rem;
+    left: -1rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--gray-light);
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+}
+
+.profile-settings:hover {
+    color: var(--white);
+    transform: rotate(60deg);
+}

@@ -1,0 +1,6 @@
+@ArtSharingAppBackend_HostAddress = http://localhost:5125
+
+GET {{ArtSharingAppBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,78 @@
+.oc-container {
+    width: 100%;
+    height: 7rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    font-size: 0.9rem;
+    border-radius: 0.4rem;
+}
+
+.oc-container:not(:last-child) {
+    margin-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--gray);
+}
+
+.oc-container:hover {
+    background-color: var(--black-highlight);
+}
+
+.oc-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.oc-actions button {
+    background-color: transparent;
+    border: none;
+    color: var(--gray-light);
+    cursor: pointer;
+
+    font-weight: bold;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.8rem;
+    font-size: 0.8rem;
+}
+
+#accept-offer:hover {
+    color: #00A388;
+    background-color: #b5ffe1;
+}
+
+#reject-offer:hover {
+    color: var(--red);
+    background-color: var(--red-light);
+}
+
+.oc-top-offer {
+    display: none;
+    color: var(--orange);
+}
+
+.oc-container:first-child {
+    border: 1px solid var(--orange);
+
+    #accept-offer {
+        color: #00A388;
+        background-color: #b5ffe1;
+    }
+
+    #reject-offer {
+        color: var(--red);
+        background-color: var(--red-light);
+    }
+
+    .oc-top-offer {
+        display: inline-block;
+    }
+}
+
+.oc-status {
+    background-color: var(--gray-light);
+    color: var(--gray-lighter);
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.8rem;
+    font-size: 0.7rem;
+}

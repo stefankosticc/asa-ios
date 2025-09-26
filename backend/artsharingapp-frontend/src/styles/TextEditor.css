@@ -1,0 +1,96 @@
+.tiptap {
+    color: var(--white);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    outline: none;
+    min-height: 10rem;
+}
+
+.tiptap ul {
+    padding-left: 1.5rem;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}
+
+.text-editor-editing {
+    border: 0.5px solid var(--gray-light);
+}
+
+/* Heading styles */
+.tiptap h1,
+.tiptap h2 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+}
+
+.tiptap h1,
+.tiptap h2 {
+    margin-bottom: 1.5rem;
+}
+
+.tiptap h1 {
+    font-size: 1.4rem;
+}
+
+.tiptap h2 {
+    font-size: 1.2rem;
+}
+
+.tiptap h1:first-child,
+.tiptap h2:first-child {
+    margin-top: 0;
+}
+
+.tiptap p:not(:last-child) {
+    margin-bottom: 0.6rem;
+}
+
+.tiptap li {
+    margin-bottom: 0.6rem;
+}
+
+.tiptap hr {
+    border: none;
+    border-top: 1px solid var(--gray-light);
+    margin: 1rem 0;
+}
+
+/* Bubble menu */
+.bubble-menu {
+    background-color: var(--white);
+    border: 0.5px solid var(--gray-lighter);
+    border-radius: 0.4rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 0.2rem;
+    gap: 0.1rem;
+
+    button {
+        background-color: unset;
+        border: none;
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+        color: var(--gray);
+        cursor: pointer;
+        border-radius: 0.2rem;
+        padding: 0.2rem 0.5rem;
+
+
+        &:hover {
+            background-color: var(--gray-lighter);
+        }
+
+        &.is-active {
+            background-color: var(--gray-lighter);
+            color: #1976d2;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+.fixed-sale-section-message button {
+    height: 100%;
+    padding: 0.4rem;
+}
+
+.fixed-sale-section-container {
+    --section-border-color: var(--cyan);
+}
+
+.fixed-sale-section-message button:hover {
+    background-color: var(--section-border-color);
+}
