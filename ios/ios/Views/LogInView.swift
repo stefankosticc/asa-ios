@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct LogInView: View {
-    @State var email : String = ""
-    @State var password : String = ""
+    @StateObject private var authViewModel = AuthViewModel()
     
     @FocusState private var focusedField: Field?
     enum Field { case email, password }
@@ -30,11 +29,11 @@ struct LogInView: View {
                 
                 VStack(spacing: 20) {
                     Text("Log in")
-                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                        .font(.title)
                         .fontWeight(.bold)
                         .padding(.bottom, 10)
                     
-                    TextField(text: $email, label: {
+                    TextField(text: $authViewModel.loginForm.email, label: {
                         Text("Email")
                             .foregroundStyle(Color.gray)
                     })
@@ -43,8 +42,8 @@ struct LogInView: View {
                     .textInputAutocapitalization(.never)
                     .keyboardType(.emailAddress)
                     .textContentType(.emailAddress)
-                        
-                    SecureField(text: $password) {
+                    
+                    SecureField(text: $authViewModel.loginForm.password) {
                         Text("Password")
                             .foregroundStyle(Color.gray)
                     }
@@ -52,7 +51,7 @@ struct LogInView: View {
                     .focused($focusedField, equals: .password)
                     .textInputAutocapitalization(.never)
                     
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Button(action: {}, label: {
                         Text("Forgot password?")
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .foregroundColor(.gray)
@@ -60,8 +59,16 @@ struct LogInView: View {
                             .font(.custom("", size: 14))
                     })
                     
+                    if let error = authViewModel.errorMessage {
+                        Text(error)
+                            .modifier(ErrorTextStyle())
+                    }
                     
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Button(action: {
+                        Task{
+                            await authViewModel.login()
+                        }
+                    }, label: {
                         Text("Log in")
                     })
                     .foregroundColor(.black)
@@ -71,7 +78,7 @@ struct LogInView: View {
                     .background(.cPurple)
                     .clipShape(Capsule())
                     .padding([.top, .leading, .trailing], 10)
-
+                    
                     HStack(spacing: 4, content: {
                         Text("Don't have an account? ")
                         NavigationLink(destination: SignUpView(), label: {
@@ -82,7 +89,7 @@ struct LogInView: View {
                         })
                     })
                     
-                      
+                    
                 }
                 .padding(.horizontal, 28)
                 .foregroundColor(.white)

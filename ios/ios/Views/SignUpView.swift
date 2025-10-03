@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @State var name : String = ""
-    @State var password : String = ""
-    @State var confirmPassword : String = ""
-    @State var userName : String = ""
-    @State var email : String = ""
+    @StateObject private var authViewModel = AuthViewModel()
     
     @FocusState private var focusedField: Field?
     enum Field { case email, password, name, userName, confirmPassword }
@@ -20,7 +16,6 @@ struct SignUpView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationStack {
             ZStack {
                 RadialGradient(
                     gradient: Gradient(colors: [
@@ -40,14 +35,14 @@ struct SignUpView: View {
                         .fontWeight(.bold)
                         .padding(.bottom, 10)
                     
-                    TextField(text: $name, label: {
+                    TextField(text: $authViewModel.signUpForm.name, label: {
                         Text("Name")
                             .foregroundStyle(Color.gray)
                     })
                     .textFieldStyle(AuthTextFieldStyle(isFocused: focusedField == .name))
                     .focused($focusedField, equals: .name)
                     
-                    TextField(text: $userName, label: {
+                    TextField(text: $authViewModel.signUpForm.userName, label: {
                         Text("Username")
                             .foregroundStyle(Color.gray)
                     })
@@ -55,7 +50,7 @@ struct SignUpView: View {
                     .focused($focusedField, equals: .userName)
                     .textInputAutocapitalization(.never)
                     
-                    TextField(text: $email, label: {
+                    TextField(text: $authViewModel.signUpForm.email, label: {
                         Text("Email")
                             .foregroundStyle(Color.gray)
                     })
@@ -65,7 +60,7 @@ struct SignUpView: View {
                     .keyboardType(.emailAddress)
                     .textContentType(.emailAddress)
                     
-                    SecureField(text: $password, label: {
+                    SecureField(text: $authViewModel.signUpForm.password, label: {
                         Text("Password")
                             .foregroundStyle(Color.gray)
                     })
@@ -73,7 +68,7 @@ struct SignUpView: View {
                     .focused($focusedField, equals: .password)
                     .textInputAutocapitalization(.never)
                     
-                    SecureField(text: $confirmPassword, label: {
+                    SecureField(text: $authViewModel.signUpForm.confirmPassword, label: {
                         Text("Confirm Password")
                             .foregroundStyle(Color.gray)
                     })
@@ -81,7 +76,16 @@ struct SignUpView: View {
                     .focused($focusedField, equals: .confirmPassword)
                     .textInputAutocapitalization(.never)
                     
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    if let error = authViewModel.errorMessage {
+                        Text(error)
+                            .modifier(ErrorTextStyle())
+                    }
+                    
+                    Button(action: {
+                        Task{
+                            await authViewModel.signUp()
+                        }
+                    }, label: {
                         Text("Sign up")
                     })
                     .foregroundColor(.black)
@@ -110,7 +114,9 @@ struct SignUpView: View {
                 .cornerRadius(18)
                 .padding()
             }
-        }
+            .onTapGesture {
+                focusedField = nil
+            }
     }
 }
 

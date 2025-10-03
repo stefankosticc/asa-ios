@@ -7,9 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B0088072E900D3D00745F89 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0088062E900D3D00745F89 /* TokenStore.swift */; };
 		5B2589572E8D197200FC7E99 /* AuthTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2589562E8D197200FC7E99 /* AuthTextFieldStyle.swift */; };
 		5BAA83242E89C30C0055B794 /* GetStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA83232E89C30C0055B794 /* GetStartedView.swift */; };
 		5BAA83262E89D1FD0055B794 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA83252E89D1FD0055B794 /* LogInView.swift */; };
+		5BAF102E2E8EE37C00C868C5 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF102D2E8EE37B00C868C5 /* AuthModels.swift */; };
+		5BAF10302E8EE3A300C868C5 /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF102F2E8EE3A300C868C5 /* UserModels.swift */; };
+		5BAF10332E8EE52700C868C5 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF10322E8EE52700C868C5 /* AuthViewModel.swift */; };
+		5BAF10362E8EEFCA00C868C5 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF10352E8EEFCA00C868C5 /* APIService.swift */; };
+		5BAF10382E8F025900C868C5 /* ErrorTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAF10372E8F025900C868C5 /* ErrorTextStyle.swift */; };
+		5BBA03AD2E900ACD001B1EE3 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA03AC2E900ACD001B1EE3 /* DiscoverView.swift */; };
 		5BDB70622E8666FB00EB6C83 /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDB70612E8666FB00EB6C83 /* iosApp.swift */; };
 		5BDB70662E8666FC00EB6C83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BDB70652E8666FC00EB6C83 /* Assets.xcassets */; };
 		5BDB70692E8666FC00EB6C83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BDB70682E8666FC00EB6C83 /* Preview Assets.xcassets */; };
@@ -37,9 +44,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B0088062E900D3D00745F89 /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		5B2589562E8D197200FC7E99 /* AuthTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextFieldStyle.swift; sourceTree = "<group>"; };
 		5BAA83232E89C30C0055B794 /* GetStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedView.swift; sourceTree = "<group>"; };
 		5BAA83252E89D1FD0055B794 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
+		5BAF102D2E8EE37B00C868C5 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
+		5BAF102F2E8EE3A300C868C5 /* UserModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModels.swift; sourceTree = "<group>"; };
+		5BAF10322E8EE52700C868C5 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		5BAF10352E8EEFCA00C868C5 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		5BAF10372E8F025900C868C5 /* ErrorTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorTextStyle.swift; sourceTree = "<group>"; };
+		5BBA03AC2E900ACD001B1EE3 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		5BDB705E2E8666FB00EB6C83 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDB70612E8666FB00EB6C83 /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
 		5BDB70652E8666FC00EB6C83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				5B2589562E8D197200FC7E99 /* AuthTextFieldStyle.swift */,
+				5BAF10372E8F025900C868C5 /* ErrorTextStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -88,6 +103,8 @@
 		5BAA83212E89C28F0055B794 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5BAF102D2E8EE37B00C868C5 /* AuthModels.swift */,
+				5BAF102F2E8EE3A300C868C5 /* UserModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -98,8 +115,26 @@
 				5BAA83232E89C30C0055B794 /* GetStartedView.swift */,
 				5BAA83252E89D1FD0055B794 /* LogInView.swift */,
 				5BECDCEE2E8AF7BA0092C6D9 /* SignUpView.swift */,
+				5BBA03AC2E900ACD001B1EE3 /* DiscoverView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		5BAF10312E8EE44E00C868C5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5BAF10322E8EE52700C868C5 /* AuthViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5BAF10342E8EEC2600C868C5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5BAF10352E8EEFCA00C868C5 /* APIService.swift */,
+				5B0088062E900D3D00745F89 /* TokenStore.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		5BDB70552E8666FB00EB6C83 = {
@@ -125,6 +160,8 @@
 		5BDB70602E8666FB00EB6C83 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				5BAF10342E8EEC2600C868C5 /* Services */,
+				5BAF10312E8EE44E00C868C5 /* ViewModels */,
 				5B2589552E8D193C00FC7E99 /* Styles */,
 				5BAA83222E89C2980055B794 /* Views */,
 				5BAA83212E89C28F0055B794 /* Models */,
@@ -291,9 +328,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BECDCEF2E8AF7BA0092C6D9 /* SignUpView.swift in Sources */,
+				5BAF10302E8EE3A300C868C5 /* UserModels.swift in Sources */,
+				5BBA03AD2E900ACD001B1EE3 /* DiscoverView.swift in Sources */,
+				5BAF102E2E8EE37C00C868C5 /* AuthModels.swift in Sources */,
+				5BAF10382E8F025900C868C5 /* ErrorTextStyle.swift in Sources */,
+				5B0088072E900D3D00745F89 /* TokenStore.swift in Sources */,
 				5BAA83242E89C30C0055B794 /* GetStartedView.swift in Sources */,
+				5BAF10332E8EE52700C868C5 /* AuthViewModel.swift in Sources */,
 				5BAA83262E89D1FD0055B794 /* LogInView.swift in Sources */,
 				5B2589572E8D197200FC7E99 /* AuthTextFieldStyle.swift in Sources */,
+				5BAF10362E8EEFCA00C868C5 /* APIService.swift in Sources */,
 				5BDB70622E8666FB00EB6C83 /* iosApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
