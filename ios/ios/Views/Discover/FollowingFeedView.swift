@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct FollowingFeedView: View {
+    @StateObject private var authViewModel = AuthViewModel()
+    
+    
     var body: some View {
-        VStack(alignment: .leading){
+        LazyVStack(alignment: .leading) {
             Text("Following")
                 .font(.title)
                 .bold()

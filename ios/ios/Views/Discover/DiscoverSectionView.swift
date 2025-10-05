@@ -24,7 +24,7 @@ struct DiscoverSectionView<Content: View>: View {
                 .padding()
                 .padding(.vertical, 4)
                 .padding(.horizontal, 12)
-                .background(Color.cBlackHigglight)
+                .background(Color.cBlackHighlight)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .padding(.horizontal)
             }

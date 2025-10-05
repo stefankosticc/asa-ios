@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class AuthViewModel : ObservableObject {
@@ -26,7 +27,10 @@ class AuthViewModel : ObservableObject {
     @Published var signUpForm = SignUpForm()
     @Published var errorMessage: String?
     
+    @AppStorage("isAuthenticated") private var isAuthenticated: Bool = false
+    
     private let api: APIServiceProtocol
+    private let tokenStore = TokenStore()
     
     init(api: APIServiceProtocol = APIService()) {
         self.api = api
@@ -37,39 +41,57 @@ class AuthViewModel : ObservableObject {
         return email.range(of: emailPattern, options: .regularExpression) != nil
     }
     
-    func login() async {
-        let request = LoginRequest(email: loginForm.email, password: loginForm.password)
+    func login() async -> Bool {
+        let request = LoginRequest(
+            email: loginForm.email,
+            password: loginForm.password
+        )
+        
         do {
             let response: LoginResponse = try await api.post(endpoint: "auth/login", body: request)
             await api.saveTokens(accessToken: response.accessToken, refreshToken: response.refreshToken)
+            
+            isAuthenticated = true
+            return true
         } catch let APIServiceError.httpError(_, message) {
             self.errorMessage = message ?? "Unknown error"
             self.loginForm.password = ""
+            isAuthenticated = false
         } catch {
             self.errorMessage = error.localizedDescription
+            isAuthenticated = false
         }
+        
+        return false
     }
     
-    func signUp() async {
+    func signUp() async -> Bool {
         guard !signUpForm.email.isEmpty, !signUpForm.password.isEmpty, !signUpForm.confirmPassword.isEmpty,
               !signUpForm.name.isEmpty, !signUpForm.userName.isEmpty else {
             self.errorMessage = "Please fill in all fields."
-            return
+            return false
         }
         
         guard isValidEmail(signUpForm.email) else {
             self.errorMessage = "Please enter a valid email address."
-            return
+            return false
         }
         
         guard signUpForm.password == signUpForm.confirmPassword else {
             self.errorMessage = "Passwords do not match."
-            return
+            return false
         }
         
-        let request = SignUpRequest(name: signUpForm.name, email: signUpForm.email, userName: signUpForm.userName, password: signUpForm.password)
+        let request = SignUpRequest(
+            name: signUpForm.name,
+            email: signUpForm.email,
+            userName: signUpForm.userName,
+            password: signUpForm.password
+        )
+        
         do {
             try await api.post(endpoint: "auth/register", body: request)
+            return true
         } catch let APIServiceError.httpError(_, message) {
             self.errorMessage = message ?? "Unknown error"
             self.signUpForm.password = ""
@@ -77,5 +99,24 @@ class AuthViewModel : ObservableObject {
         } catch {
             self.errorMessage = error.localizedDescription
         }
+        
+        return false
+    }
+    
+    func checkAuthentication() async {
+        isAuthenticated = await tokenStore.getRefreshToken() != nil
+    }
+    
+    func logout() async {
+        do {
+            try await api.post(endpoint: "auth/logout")
+        } catch let APIServiceError.httpError(_, message) {
+            self.errorMessage = message ?? "Unknown error"
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+        
+        await tokenStore.clearTokens()
+        isAuthenticated = false
     }
 }

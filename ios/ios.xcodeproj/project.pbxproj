@@ -11,7 +11,10 @@
 		5B00880A2E9028B500745F89 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0088092E9028B500745F89 /* MainTabView.swift */; };
 		5B2227692E91636A0057A7C7 /* ArtworkDiscoverCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2227682E91636A0057A7C7 /* ArtworkDiscoverCardView.swift */; };
 		5B22276B2E9175D10057A7C7 /* FollowingFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B22276A2E9175D10057A7C7 /* FollowingFeedView.swift */; };
+		5B22276D2E917EDC0057A7C7 /* DiscoverModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B22276C2E917EDC0057A7C7 /* DiscoverModels.swift */; };
+		5B2227702E9180480057A7C7 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B22276F2E9180480057A7C7 /* Currency.swift */; };
 		5B2589572E8D197200FC7E99 /* AuthTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2589562E8D197200FC7E99 /* AuthTextFieldStyle.swift */; };
+		5B4E0D532E923BEA00970E84 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4E0D522E923BEA00970E84 /* RootView.swift */; };
 		5B9ED8502E9131EF00D27A92 /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9ED84F2E9131EF00D27A92 /* DiscoverViewModel.swift */; };
 		5BAA83242E89C30C0055B794 /* GetStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA83232E89C30C0055B794 /* GetStartedView.swift */; };
 		5BAA83262E89D1FD0055B794 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAA83252E89D1FD0055B794 /* LogInView.swift */; };
@@ -56,7 +59,10 @@
 		5B0088092E9028B500745F89 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		5B2227682E91636A0057A7C7 /* ArtworkDiscoverCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDiscoverCardView.swift; sourceTree = "<group>"; };
 		5B22276A2E9175D10057A7C7 /* FollowingFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingFeedView.swift; sourceTree = "<group>"; };
+		5B22276C2E917EDC0057A7C7 /* DiscoverModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverModels.swift; sourceTree = "<group>"; };
+		5B22276F2E9180480057A7C7 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		5B2589562E8D197200FC7E99 /* AuthTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextFieldStyle.swift; sourceTree = "<group>"; };
+		5B4E0D522E923BEA00970E84 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		5B9ED84F2E9131EF00D27A92 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		5BAA83232E89C30C0055B794 /* GetStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedView.swift; sourceTree = "<group>"; };
 		5BAA83252E89D1FD0055B794 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
@@ -107,6 +113,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B22276E2E91803C0057A7C7 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				5B22276F2E9180480057A7C7 /* Currency.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		5B2589552E8D193C00FC7E99 /* Styles */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,8 +133,10 @@
 		5BAA83212E89C28F0055B794 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5B22276E2E91803C0057A7C7 /* Enums */,
 				5BAF102D2E8EE37B00C868C5 /* AuthModels.swift */,
 				5BAF102F2E8EE3A300C868C5 /* UserModels.swift */,
+				5B22276C2E917EDC0057A7C7 /* DiscoverModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -133,6 +149,7 @@
 				5BAA83252E89D1FD0055B794 /* LogInView.swift */,
 				5BECDCEE2E8AF7BA0092C6D9 /* SignUpView.swift */,
 				5B0088092E9028B500745F89 /* MainTabView.swift */,
+				5B4E0D522E923BEA00970E84 /* RootView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -374,7 +391,10 @@
 				5B0088072E900D3D00745F89 /* TokenStore.swift in Sources */,
 				5BAA83242E89C30C0055B794 /* GetStartedView.swift in Sources */,
 				5BF589E32E91141000A03625 /* HighStakesAuctionView.swift in Sources */,
+				5B4E0D532E923BEA00970E84 /* RootView.swift in Sources */,
+				5B22276D2E917EDC0057A7C7 /* DiscoverModels.swift in Sources */,
 				5B22276B2E9175D10057A7C7 /* FollowingFeedView.swift in Sources */,
+				5B2227702E9180480057A7C7 /* Currency.swift in Sources */,
 				5B00880A2E9028B500745F89 /* MainTabView.swift in Sources */,
 				5BAF10332E8EE52700C868C5 /* AuthViewModel.swift in Sources */,
 				5BAA83262E89D1FD0055B794 /* LogInView.swift in Sources */,

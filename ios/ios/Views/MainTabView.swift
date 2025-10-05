@@ -32,49 +32,49 @@ struct MainTabView: View {
     }
     
     var body: some View {
-          TabView(selection: $selectedTab) {
-              NavigationStack {
-                  DiscoverView()
-              }
-              .tabItem {
-                  Image(systemName: "magnifyingglass")
-                  Text("Search")
-              }
-              .tag(0)
-              
-
-              DiscoverView()
-                  .tabItem {
-                      Image(systemName: "person.fill")
-                      Text("Profile")
-                  } 
-                  .tag(1)
-              
-              NavigationStack {
-                  DiscoverView()
-              }
-                  .tabItem {
-                      Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled.fill")
-                      Text("Discover")
-                  }
-                  .tag(2)
-              
-              DiscoverView()
-                  .tabItem {
-                      Image(systemName: "bubble.fill")
-                      Text("Chat")
-                  }
-                  .tag(3)
-              
-              DiscoverView()
-                  .tabItem {
-                      Image(systemName: "bell.badge.fill")
-                      Text("Notifications")
-                  }
-                  .tag(3)
-          }
-          .accentColor(.cPurple)
-      }
+        TabView(selection: $selectedTab) {
+            NavigationStack {
+                DiscoverView()
+            }
+            .tabItem {
+                Image(systemName: "magnifyingglass")
+                Text("Search")
+            }
+            .tag(0)
+            
+            
+            DiscoverView()
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text("Profile")
+                }
+                .tag(1)
+            
+            NavigationStack {
+                DiscoverView()
+            }
+            .tabItem {
+                Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled.fill")
+                Text("Discover")
+            }
+            .tag(2)
+            
+            DiscoverView()
+                .tabItem {
+                    Image(systemName: "bubble.fill")
+                    Text("Chat")
+                }
+                .tag(3)
+            
+            DiscoverView()
+                .tabItem {
+                    Image(systemName: "bell.badge.fill")
+                    Text("Notifications")
+                }
+                .tag(3)
+        }
+        .accentColor(.cPurple)
+    }
 }
 
 #Preview {

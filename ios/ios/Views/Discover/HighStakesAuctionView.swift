@@ -21,7 +21,7 @@ struct HighStakesAuctionView: View {
                 VStack(spacing: 8) {
                     Text("Current Price")
                         .font(.subheadline)
-                    Text("\(10000.formatted(.number.grouping(.automatic))) USD")
+                    Text("\(10000.formatted(.number.grouping(.automatic))) \(Currency.USD)")
                         .foregroundStyle(.cGrayLight)
                 }
                 

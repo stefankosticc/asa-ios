@@ -69,7 +69,7 @@ struct DiscoverView: View {
                                     .padding(.leading, 24)
                                     .padding(.vertical)
                                 
-                                VStack(spacing: 20){
+                                LazyVStack(spacing: 20){
                                     ArtworkDiscoverCardView()
                                     ArtworkDiscoverCardView(artworkImage: URL(string: "https://cdn.shopify.com/s/files/1/0047/4231/6066/files/Girl_with_a_Pearl_Earring_by_Johannes_Vermeer_1665_800x.jpg"))
                                     ArtworkDiscoverCardView(artworkImage: URL(string: "https://www.minimastersart.com/cdn/shop/articles/Starry_Night_-_Vincent_Van_Gogh_1402x.png?v=1734545704"))

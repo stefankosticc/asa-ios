@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+class DiscoverViewModel : ObservableObject {
+    private let api: APIServiceProtocol
+    
+    init(api: APIServiceProtocol = APIService()) {
+        self.api = api
+    }
+    
+    
+}

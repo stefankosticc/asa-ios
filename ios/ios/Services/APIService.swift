@@ -41,11 +41,13 @@ protocol APIServiceProtocol {
     func post<T: Decodable, Body: Encodable>(endpoint: String, body: Body) async throws -> T
     func put<T: Decodable, Body: Encodable>(endpoint: String, body: Body) async throws -> T
     func delete<T: Decodable>(endpoint: String) async throws -> T
-    func saveTokens(accessToken: String, refreshToken: String) async
     
     func post<Body: Encodable>(endpoint: String, body: Body) async throws
+    func post(endpoint: String) async throws
     func put<Body: Encodable>(endpoint: String, body: Body) async throws
     func delete(endpoint: String) async throws
+    
+    func saveTokens(accessToken: String, refreshToken: String) async
 }
 
 
@@ -136,7 +138,7 @@ class APIService: APIServiceProtocol {
             throw APIServiceError.httpError(statusCode: httpResponse.statusCode, message: message)
         }
         
-        // When request doesnt return anything
+        // When request doesn't return anything
         if data.isEmpty, T.self == EmptyResponse.self {
             return EmptyResponse() as! T
         }
@@ -168,13 +170,14 @@ class APIService: APIServiceProtocol {
         try await request(endpoint: endpoint, method: "DELETE")
     }
     
-    func saveTokens(accessToken: String, refreshToken: String) async {
-        await tokenStore.setTokens(accessToken: accessToken, refreshToken: refreshToken)
-    }
-    
     // POST returning nothing
     func post<Body: Encodable>(endpoint: String, body: Body) async throws {
         let _: EmptyResponse = try await post(endpoint: endpoint, body: body)
+    }
+    
+    // POST without a body
+    func post(endpoint: String) async throws {
+        let _: EmptyResponse = try await request(endpoint: endpoint, method: "POST")
     }
 
     // PUT returning nothing
@@ -186,4 +189,9 @@ class APIService: APIServiceProtocol {
     func delete(endpoint: String) async throws {
         let _: EmptyResponse = try await delete(endpoint: endpoint)
     }
+    
+    func saveTokens(accessToken: String, refreshToken: String) async {
+        await tokenStore.setTokens(accessToken: accessToken, refreshToken: refreshToken)
+    }
+    
 }
