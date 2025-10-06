@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct HighStakesAuctionView: View {
-    var artworkTitle: String = "-"
+    var auction: HighStakesAuctionResponse
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(artworkTitle)
+            Text(auction.artworkTitle)
                 .bold()
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
@@ -21,14 +21,14 @@ struct HighStakesAuctionView: View {
                 VStack(spacing: 8) {
                     Text("Current Price")
                         .font(.subheadline)
-                    Text("\(10000.formatted(.number.grouping(.automatic))) \(Currency.USD)")
+                    Text("\(auction.currentPrice.formatted(.number.grouping(.automatic))) \(auction.currency)")
                         .foregroundStyle(.cGrayLight)
                 }
                 
                 VStack(spacing: 8) {
                     Text("No. of Offers")
                         .font(.subheadline)
-                    Text("\(7.formatted(.number.grouping(.automatic)))")
+                    Text("\(auction.offerCount.formatted(.number.grouping(.automatic)))")
                         .foregroundStyle(.cGrayLight)
                 }
             }

@@ -9,23 +9,36 @@ import SwiftUI
 
 struct FollowingFeedView: View {
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var discoverVM = DiscoverViewModel()
+    
+//    @State private var followingArtworks: [FollowedUserArtworkResponse]? = nil
     
     
     var body: some View {
-        LazyVStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             Text("Following")
                 .font(.title)
                 .bold()
                 .padding(.leading, 24)
                 .padding(.vertical)
             
-            ScrollView
-            {
-                VStack(spacing: 20){
-                    ArtworkDiscoverCardView()
-                    ArtworkDiscoverCardView(artworkImage: URL(string: "https://cdn.shopify.com/s/files/1/0047/4231/6066/files/Girl_with_a_Pearl_Earring_by_Johannes_Vermeer_1665_800x.jpg"))
-                    ArtworkDiscoverCardView(artworkImage: URL(string: "https://www.minimastersart.com/cdn/shop/articles/Starry_Night_-_Vincent_Van_Gogh_1402x.png?v=1734545704"))
+            LazyVStack(spacing: 20) {
+                ForEach(discoverVM.followedArtworksItems) { artwork in
+                    ArtworkDiscoverCardView(artwork: artwork)
+                        .onAppear {
+                            if artwork.id == discoverVM.followedArtworks.items.last?.id {
+                                Task { await discoverVM.followedArtworks.loadMore() }
+                            }
+                        }
                 }
+                
+                if discoverVM.followedArtworks.isLoading || discoverVM.followedArtworksItems.isEmpty {
+                    ProgressView()
+                        .padding()
+                }
+            }
+            .onAppear {
+                Task { await discoverVM.followedArtworks.loadMore() }
             }
         }
     }

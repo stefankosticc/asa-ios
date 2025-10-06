@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum Currency: String, Codable {
+enum Currency: Int, Codable {
     case USD, EUR, GBP
 }

@@ -55,12 +55,12 @@ class APIService: APIServiceProtocol {
     private let baseURL: String
     private let tokenStore: TokenStore
     private let refreshEndpoint = "auth/refresh-token"
-
+    
     init(baseURL: String = "http://localhost:5125/api", tokenStore: TokenStore = TokenStore()) {
         self.baseURL = baseURL
         self.tokenStore = tokenStore
     }
-
+    
     // Token Refresh Logic
     private func refreshAccessToken() async throws {
         guard let refreshToken = await tokenStore.getRefreshToken() else {
@@ -77,7 +77,7 @@ class APIService: APIServiceProtocol {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = bodyData
-
+        
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIServiceError.invalidResponse
@@ -93,7 +93,7 @@ class APIService: APIServiceProtocol {
         let decoded = try JSONDecoder().decode(RefreshResponse.self, from: data)
         await tokenStore.setTokens(accessToken: decoded.accessToken, refreshToken: decoded.refreshToken)
     }
-
+    
     // Generic Request with Refresh Support
     private func request<T: Decodable>(
         endpoint: String,
@@ -104,7 +104,7 @@ class APIService: APIServiceProtocol {
         guard let url = URL(string: "\(baseURL)/\(endpoint)") else {
             throw APIServiceError.invalidURL
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -112,13 +112,13 @@ class APIService: APIServiceProtocol {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         request.httpBody = body
-
+        
         let (data, response) = try await URLSession.shared.data(for: request)
-
+        
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIServiceError.invalidResponse
         }
-
+        
         if httpResponse.statusCode == 401, retryOnAuthFail, (await tokenStore.getRefreshToken()) != nil {
             // Try to refresh token and retry once
             do {
@@ -129,7 +129,7 @@ class APIService: APIServiceProtocol {
                 throw APIServiceError.httpError(statusCode: 401, message: "Session expired. Please log in again.")
             }
         }
-
+        
         guard (200...299).contains(httpResponse.statusCode) else {
             var message: String? = nil
             if let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
@@ -142,7 +142,7 @@ class APIService: APIServiceProtocol {
         if data.isEmpty, T.self == EmptyResponse.self {
             return EmptyResponse() as! T
         }
-
+        
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -179,12 +179,12 @@ class APIService: APIServiceProtocol {
     func post(endpoint: String) async throws {
         let _: EmptyResponse = try await request(endpoint: endpoint, method: "POST")
     }
-
+    
     // PUT returning nothing
     func put<Body: Encodable>(endpoint: String, body: Body) async throws {
         let _: EmptyResponse = try await put(endpoint: endpoint, body: body)
     }
-
+    
     // DELETE returning nothing
     func delete(endpoint: String) async throws {
         let _: EmptyResponse = try await delete(endpoint: endpoint)
@@ -193,5 +193,4 @@ class APIService: APIServiceProtocol {
     func saveTokens(accessToken: String, refreshToken: String) async {
         await tokenStore.setTokens(accessToken: accessToken, refreshToken: refreshToken)
     }
-    
 }

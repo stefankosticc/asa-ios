@@ -9,16 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct ArtworkDiscoverCardView: View {
-//    let artworkFallbackImage: URL? = URL(string: "https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png?20210521171500")
-    var artworkImage: URL? = URL(string: "https://cdn.shopify.com/s/files/1/0047/4231/6066/files/The_Scream_by_Edvard_Munch_1893_800x.png")
-    
+    @State var artwork: any DiscoverArtworkProtocol
     var width: CGFloat? = nil
     var height: CGFloat = 290
     var disableHorizontalPadding: Bool = false
     
     var body: some View {
         VStack(spacing: 0) {
-            KFImage(artworkImage)
+            KFImage(URL(string: "\(Constants.BACKEND_URL)\(artwork.image)"))
                 .placeholder {
                     ProgressView()
                 }
@@ -30,18 +28,19 @@ struct ArtworkDiscoverCardView: View {
             
             
             HStack(spacing: 6) {
-                Text("Artwork Title")
+                Text(artwork.title)
                     .foregroundStyle(.white)
                     .lineLimit(2)
                 
                 Spacer()
                 
-                Text("@artist")
+                Text("@\(artwork.postedByUserName)")
                     .foregroundStyle(.cGrayLight)
                     .lineLimit(2)
             }
             .padding()
         }
+        .frame(width: width)
         .background(Color.black)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.cGrayLight, lineWidth: 0.5))

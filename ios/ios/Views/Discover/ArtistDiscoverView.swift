@@ -7,24 +7,39 @@
 
 import SwiftUI
 import Kingfisher
+import SVGKit
 
 struct ArtistDiscoverView: View {
-    @State var name: String = "Artist Name"
-    @State var profilePhoto: URL? = URL(string: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+    @State var artist: TopArtistResponse
+    @State private var loadFailed = false
     
     var body: some View {
         VStack(spacing: 10){
-            KFImage(profilePhoto)
-                .placeholder {
-                    ProgressView()
-                }
-                .resizable()
-                .scaledToFill()
-                .frame(width: 90, height: 90)
-                .clipShape(Circle())
-//                .overlay(Circle().stroke(Color.gray.opacity(0.5), lineWidth: 2))
+            if loadFailed {
+                KFImage(URL(string: Constants.ARTIST_FALLBACK_IMAGE))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 90, height: 90)
+                    .clipShape(Circle())
+            } else {
+                KFImage(URL(string: "\(Constants.BACKEND_URL)\(artist.profilePhoto)"))
+                    .setProcessor(SVGProcessor())
+                    .placeholder {
+                        ProgressView()
+                    }
+                    .onFailure { _ in
+                        loadFailed = true
+                    }
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 90, height: 90)
+                    .clipShape(Circle())
+                    .clipped()
+                //  .overlay(Circle().stroke(Color.gray.opacity(0.5), lineWidth: 2))
+            }
             
-            Text(name)
+            
+            Text(artist.name)
                 .font(.subheadline)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)

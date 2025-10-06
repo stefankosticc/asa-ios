@@ -19,8 +19,10 @@ struct RootView: View {
                 GetStartedView()
             }
         }
-        .task {
-            await authViewModel.checkAuthentication()
+        .onAppear() {
+            Task {            
+                await authViewModel.checkAuthentication()
+            }
         }
     }
 }

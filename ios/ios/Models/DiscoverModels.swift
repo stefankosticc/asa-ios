@@ -25,7 +25,14 @@ struct HighStakesAuctionResponse: Codable, Identifiable {
     var id: Int { auctionId }
 }
 
-struct DiscoverArtworkResponse: Codable, Identifiable {
+protocol DiscoverArtworkProtocol: Identifiable {
+    var id: Int { get }
+    var title: String { get }
+    var image: String { get }
+    var postedByUserName: String { get }
+}
+
+struct DiscoverArtworkResponse: Codable, Identifiable, DiscoverArtworkProtocol {
     let id: Int
     let title: String
     let image: String
@@ -36,4 +43,12 @@ struct DiscoverData: Codable {
     let topArtistsByLikes: [TopArtistResponse]
     let highStakeAuctions: [HighStakesAuctionResponse]
     let trendingArtworks: [DiscoverArtworkResponse]
+}
+
+struct FollowedUserArtworkResponse: Codable, Identifiable, DiscoverArtworkProtocol {
+    let id: Int
+    let title: String
+    let image: String
+    let postedByUserName: String
+    let color: String
 }

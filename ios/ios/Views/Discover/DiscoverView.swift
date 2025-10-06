@@ -11,6 +11,11 @@ struct DiscoverView: View {
     @State private var selectedSegment = 0
     let segments = ["Discover", "Following"]
     
+    @StateObject private var discoverVM = DiscoverViewModel()
+    @State private var discoverData: DiscoverData? = nil
+//    @State private var discoverArtworks: [DiscoverArtworkResponse]? = nil
+    
+    
     var body: some View {
         ZStack{
             Color(.black)
@@ -46,21 +51,21 @@ struct DiscoverView: View {
                     if segments[selectedSegment] == "Discover" {
                         VStack(alignment: .leading, spacing: 20) {
                             DiscoverSectionView(title: "Top Artists 🧑‍🎨") {
-                                ArtistDiscoverView()
-                                ArtistDiscoverView(name: "Peter Parker")
-                                ArtistDiscoverView(name: "Peter Parker")
+                                ForEach(discoverData?.topArtistsByLikes ?? []) {artist in
+                                    ArtistDiscoverView(artist: artist)
+                                }
                             }
                             
                             DiscoverSectionView(title: "High Stakes Auctions 🔥") {
-                                HighStakesAuctionView(artworkTitle: "Self Portrait with Thorn Necklace and Hummingbird, 1940, By Frida")
-                                HighStakesAuctionView(artworkTitle: "Girl with a Pearl Earring")
-                                HighStakesAuctionView()
+                                ForEach(discoverData?.highStakeAuctions ?? []) {auction in
+                                    HighStakesAuctionView(auction: auction)
+                                }
                             }
                             
                             DiscoverSectionView(title: "On The Rise ✨") {
-                                ArtworkDiscoverCardView(width: 290, height: 200, disableHorizontalPadding: true)
-                                ArtworkDiscoverCardView(artworkImage: URL(string: "https://cdn.shopify.com/s/files/1/0047/4231/6066/files/Girl_with_a_Pearl_Earring_by_Johannes_Vermeer_1665_800x.jpg"), width: 290, height: 200, disableHorizontalPadding: true)
-                                ArtworkDiscoverCardView(artworkImage: URL(string: "https://www.minimastersart.com/cdn/shop/articles/Starry_Night_-_Vincent_Van_Gogh_1402x.png?v=1734545704"), width: 290, height: 200, disableHorizontalPadding: true)
+                                ForEach(discoverData?.trendingArtworks ?? []) {artwork in
+                                    ArtworkDiscoverCardView(artwork: artwork, width: 290, height: 200, disableHorizontalPadding: true)
+                                }
                             }
                             
                             VStack(alignment: .leading){
@@ -70,9 +75,19 @@ struct DiscoverView: View {
                                     .padding(.vertical)
                                 
                                 LazyVStack(spacing: 20){
-                                    ArtworkDiscoverCardView()
-                                    ArtworkDiscoverCardView(artworkImage: URL(string: "https://cdn.shopify.com/s/files/1/0047/4231/6066/files/Girl_with_a_Pearl_Earring_by_Johannes_Vermeer_1665_800x.jpg"))
-                                    ArtworkDiscoverCardView(artworkImage: URL(string: "https://www.minimastersart.com/cdn/shop/articles/Starry_Night_-_Vincent_Van_Gogh_1402x.png?v=1734545704"))
+                                    ForEach(discoverVM.discoverArtworksItems) { artwork in
+                                        ArtworkDiscoverCardView(artwork: artwork)
+                                            .onAppear {
+                                                if artwork.id == discoverVM.discoverArtworks.items.last?.id {
+                                                    Task { await discoverVM.discoverArtworks.loadMore() }
+                                                }
+                                            }
+                                    }
+                                    
+                                    if discoverVM.discoverArtworks.isLoading {
+                                        ProgressView()
+                                            .padding()
+                                    }
                                 }
                             }
                             
@@ -86,11 +101,19 @@ struct DiscoverView: View {
                     Spacer()
                 }
             }
+            .onAppear {
+                Task {
+                    if let data = await discoverVM.getDiscoverData() {
+                        self.discoverData = data
+                    }
+                    await discoverVM.discoverArtworks.loadMore()
+                }
+            }
         }
         .foregroundStyle(.white)
     }
 }
 
 #Preview {
-    MainTabView()
+    DiscoverView()
 }
