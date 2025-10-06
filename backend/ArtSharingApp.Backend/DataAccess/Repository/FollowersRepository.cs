@@ -60,6 +60,7 @@ public class FollowersRepository : GenericRepository<Followers>, IFollowersRepos
             .Where(f => f.UserId == loggedInUserId)
             .SelectMany(f => f.Follower.PostedArtworks.Where(a => !a.IsPrivate))
             .OrderByDescending(a => a.Date)
+            .ThenByDescending(a => a.Id) 
             .Include(a => a.PostedByUser)
             .Skip(skip)
             .Take(take)
