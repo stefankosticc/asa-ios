@@ -11,9 +11,6 @@ struct FollowingFeedView: View {
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var discoverVM = DiscoverViewModel()
     
-//    @State private var followingArtworks: [FollowedUserArtworkResponse]? = nil
-    
-    
     var body: some View {
         VStack(alignment: .leading) {
             Text("Following")

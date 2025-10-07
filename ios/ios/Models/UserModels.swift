@@ -17,7 +17,7 @@ struct User: Codable, Identifiable {
     let roleName: String?
     let followersCount: Int
     let followingCount: Int
-    let profilePhoto: String
+    let profilePhoto: String?
     let isFollowedByLoggedInUser: Bool?
 }
 
