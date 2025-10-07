@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var selectedTab = 2
+    @State private var selectedTab = 0
     @StateObject private var profileVM = ProfileViewModel()
-    @State private var user: User? = nil
+    @State private var showPrivateArtworks: Bool = false
     
     init() {
         UISegmentedControl.appearance().backgroundColor = UIColor.cBlackHighlight
@@ -29,7 +29,7 @@ struct ProfileView: View {
                         .tint(.cGrayLight)
                         .scaleEffect(1.5)
                 }
-            } else if let u = user {
+            } else if let u = profileVM.profileUser {
                 ScrollView(showsIndicators: false) {
                     HStack(spacing: 40) {
                         VStack(spacing: 20) {
@@ -38,7 +38,7 @@ struct ProfileView: View {
                                 Text(u.name)
                                     .foregroundStyle(.white)
                                     .bold()
-                                Text("@\(user?.userName ?? "")")
+                                Text("@\(profileVM.profileUser?.userName ?? "")")
                                     .foregroundStyle(.cGrayLight)
                                     .font(.subheadline)
                             }
@@ -50,7 +50,7 @@ struct ProfileView: View {
                             VStack{
                                 Text("Followers")
                                     .foregroundStyle(.white)
-                                Text(Formatter.formatFollowCount(user?.followersCount))
+                                Text(Formatter.formatFollowCount(profileVM.profileUser?.followersCount))
                                     .foregroundStyle(.cGrayLight)
                                     .font(.subheadline)
                             }
@@ -58,7 +58,7 @@ struct ProfileView: View {
                             VStack{
                                 Text("Following")
                                     .foregroundStyle(.white)
-                                Text(Formatter.formatFollowCount(user?.followingCount))
+                                Text(Formatter.formatFollowCount(profileVM.profileUser?.followingCount))
                                     .foregroundStyle(.cGrayLight)
                                     .font(.subheadline)
                             }
@@ -77,15 +77,23 @@ struct ProfileView: View {
                     VStack {
                         switch selectedTab {
                         case 0:
-                        ArtworkGridView()
-                            Text("artworks")
-                                .foregroundStyle(.white)
+                            ArtworkGridView(artworks: (showPrivateArtworks ? profileVM.artworks?.privateArtworks : profileVM.artworks?.publicArtworks) ?? [], showPrivateArtworksCard: profileVM.isOwnProfile, showPrivateArtworks: $showPrivateArtworks)
+                                .onAppear {
+                                    Task {
+                                        profileVM.artworks = await profileVM.getUserArtworks(for: u.id) ?? nil
+                                    }
+                                }
+                            
                         case 1:
-//                        FavoritesView()
-                            Text("favorites")
-                                .foregroundStyle(.white)
+                            // Favorites
+                            ArtworkGridView(artworks: ArtworkCardData.fromFavorites(profileVM.favoriteArtworks ?? []), showPrivateArtworks: $showPrivateArtworks)
+                                .onAppear {
+                                    Task {
+                                        profileVM.favoriteArtworks = await profileVM.getFavoriteArtworks(for: u.id) ?? nil
+                                    }
+                                }
                         case 2:
-                            BiographyView(text: user?.biography ?? "")
+                            BiographyView(text: profileVM.profileUser?.biography ?? "")
                                 .foregroundColor(.white)
                         default:
                             EmptyView()
@@ -100,8 +108,12 @@ struct ProfileView: View {
         }
         .onAppear {
             Task {
+                // if user is not passed to the ProfileView get the logged in user
                 if let data = await profileVM.getLoggedInUser() {
-                    self.user = data
+                    profileVM.loggedInUser = data
+                }
+                if profileVM.profileUser == nil {
+                    profileVM.profileUser = profileVM.loggedInUser
                 }
             }
         }
