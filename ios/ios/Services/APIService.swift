@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UniformTypeIdentifiers
 
 enum APIServiceError: Error, LocalizedError {
     case invalidURL
@@ -36,6 +37,14 @@ struct APIErrorResponse: Decodable {
 
 struct EmptyResponse: Decodable {}
 
+private extension Data {
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            append(data)
+        }
+    }
+}
+
 protocol APIServiceProtocol {
     func get<T: Decodable>(endpoint: String) async throws -> T
     func post<T: Decodable, Body: Encodable>(endpoint: String, body: Body) async throws -> T
@@ -48,6 +57,8 @@ protocol APIServiceProtocol {
     func delete(endpoint: String) async throws
     
     func saveTokens(accessToken: String, refreshToken: String) async
+    
+    func putWithImage<Body: Encodable>(endpoint: String, body: Body, image: Data?, imageFieldName: String) async throws
 }
 
 
@@ -192,5 +203,119 @@ class APIService: APIServiceProtocol {
     
     func saveTokens(accessToken: String, refreshToken: String) async {
         await tokenStore.setTokens(accessToken: accessToken, refreshToken: refreshToken)
+    }
+    
+    private func requestWithImage<T: Decodable, Body: Encodable>(
+        endpoint: String,
+        imageData: Data?,
+        body: Body,
+        imageFieldName: String = "file",
+        fileName: String = "image",
+        method: String // PUT or POST
+    ) async throws -> T {
+        guard let url = URL(string: "\(baseURL)/\(endpoint)") else {
+            throw APIServiceError.invalidURL
+        }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        if let token = await tokenStore.getAccessToken() {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        var bodyData = Data()
+        
+        // Add image part
+        if let imageData {
+            let mime = mimeType(for: imageData)
+            bodyData.append("--\(boundary)\r\n")
+            bodyData.append("Content-Disposition: form-data; name=\"\(imageFieldName)\"; filename=\"\(fileName)\"\r\n")
+            bodyData.append("Content-Type: \(mime)\r\n\r\n")
+            bodyData.append(imageData)
+            bodyData.append("\r\n")
+        }
+        
+        // Add JSON part
+        let json = try JSONSerialization.jsonObject(with: JSONEncoder().encode(body))
+        if let dict = json as? [String: Any] {
+            for (key, value) in dict {
+                bodyData.append("--\(boundary)\r\n")
+                bodyData.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                
+                // Booleans must be sent as "true" or "false", not as "0" or "1" for .NET backend
+                if let boolValue = value as? Bool {
+                    bodyData.append(boolValue ? "true\r\n" : "false\r\n")
+                } else {
+                    bodyData.append("\(value)\r\n")
+                }
+            }
+        }
+        
+        bodyData.append("--\(boundary)--\r\n")
+        
+        request.httpBody = bodyData
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIServiceError.invalidResponse
+        }
+        
+        if httpResponse.statusCode == 401, (await tokenStore.getRefreshToken()) != nil {
+            do {
+                try await refreshAccessToken()
+                return try await requestWithImage(
+                    endpoint: endpoint,
+                    imageData: imageData,
+                    body: body,
+                    imageFieldName: imageFieldName,
+                    fileName: fileName,
+                    method: method
+                )
+            } catch {
+                await tokenStore.clearTokens()
+                throw APIServiceError.httpError(statusCode: 401, message: "Session expired. Please log in again.")
+            }
+        }
+        
+        guard (200...299).contains(httpResponse.statusCode) else {
+            var message: String? = nil
+            if let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
+                message = apiError.error
+            }
+            throw APIServiceError.httpError(statusCode: httpResponse.statusCode, message: message)
+        }
+        
+        if data.isEmpty, T.self == EmptyResponse.self {
+            return EmptyResponse() as! T
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            throw APIServiceError.decodingError(error)
+        }
+    }
+    
+    
+    private func mimeType(for data: Data) -> String {
+        let bytes = [UInt8](data.prefix(8))
+        if bytes.starts(with: [0xFF, 0xD8, 0xFF]) {
+            return "image/jpeg"
+        } else if bytes.starts(with: [0x89, 0x50, 0x4E, 0x47]) {
+            return "image/png"
+        } else if bytes.starts(with: [0x47, 0x49, 0x46, 0x38]) {
+            return "image/gif"
+        }
+        return "application/octet-stream"
+    }
+    
+    func putWithImage<Body: Encodable>(endpoint: String, body: Body, image: Data?, imageFieldName: String) async throws {
+        let _: EmptyResponse = try await requestWithImage(endpoint: endpoint, imageData: image, body: body, imageFieldName: imageFieldName, method: "PUT")
     }
 }

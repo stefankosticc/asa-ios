@@ -69,4 +69,16 @@ class ProfileViewModel : ObservableObject {
         }
         return nil
     }
+    
+    func updateUserProfile(data: UpdateUserProfileRequest, profilePhoto: Data? = nil) async -> Bool{
+        do {
+            try await api.putWithImage(endpoint: "user", body: data, image: profilePhoto, imageFieldName: "profilePhoto")
+            return true
+        } catch let APIServiceError.httpError(_, message) {
+            self.errorMessage = message ?? "Unknown error"
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+        return false
+    }
 }
