@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TopArtistResponse: Codable, Identifiable {
+struct TopArtistResponse: Codable, Identifiable, SearchableUser {
     let id: Int
     let name: String
     let userName: String

@@ -20,7 +20,7 @@ struct RootView: View {
             }
         }
         .onAppear() {
-            Task {            
+            Task {
                 await authViewModel.checkAuthentication()
             }
         }

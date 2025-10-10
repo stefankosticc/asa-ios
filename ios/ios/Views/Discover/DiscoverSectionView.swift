@@ -17,6 +17,7 @@ struct DiscoverSectionView<Content: View>: View {
                 .font(.headline)
                 .padding(.leading, 24)
                 .padding(.vertical)
+            
             ScrollView(.horizontal, showsIndicators: false){
                 HStack(alignment: .top, spacing: 20){
                     content()

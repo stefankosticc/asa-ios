@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Codable, Identifiable {
+struct User: Codable, Identifiable, Equatable {
     let id: Int
     let name: String
     let email: String
@@ -17,19 +17,12 @@ struct User: Codable, Identifiable {
     let roleName: String?
     let followersCount: Int
     let followingCount: Int
-    let profilePhoto: String
+    let profilePhoto: String?
     let isFollowedByLoggedInUser: Bool?
 }
 
 struct UpdateUserBiographyRequest: Codable {
     let biography: String
-}
-
-struct UserSearchResponse: Codable, Identifiable {
-    let id: Int
-    let name: String
-    let userName: String
-    let profilePhoto: String
 }
 
 struct UpdateUserProfileRequest: Codable {

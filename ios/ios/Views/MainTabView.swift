@@ -33,17 +33,15 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationStack {
-                DiscoverView()
-            }
-            .tabItem {
-                Image(systemName: "magnifyingglass")
-                Text("Search")
-            }
-            .tag(0)
+            SearchView()
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                    Text("Search")
+                }
+                .tag(0)
             
             
-            DiscoverView()
+            ProfileView()
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
@@ -73,7 +71,7 @@ struct MainTabView: View {
                 }
                 .tag(3)
         }
-        .accentColor(.cPurple)
+        .accentColor(.cPurple)   
     }
 }
 
