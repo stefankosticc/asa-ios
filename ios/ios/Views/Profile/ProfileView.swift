@@ -33,16 +33,18 @@ struct ProfileView: View {
                     }
                 } else if let u = profileVM.profileUser {
                     ScrollView(showsIndicators: false) {
-                        HStack() {
-                            Spacer()
-                            Button (action: {
-                                showSettings = true
-                            }, label: {
-                                Image(systemName: "gearshape")
-                                    .font(.body)
-                                    .foregroundStyle(.cGrayLight)
-                                    .padding(.trailing, 10)
-                            })
+                        if profileVM.isOwnProfile {
+                            HStack() {
+                                Spacer()
+                                Button (action: {
+                                    showSettings = true
+                                }, label: {
+                                    Image(systemName: "gearshape")
+                                        .font(.body)
+                                        .foregroundStyle(.cGrayLight)
+                                        .padding(.trailing, 10)
+                                })
+                            }
                         }
                         
                         HStack(spacing: 40) {
@@ -91,21 +93,28 @@ struct ProfileView: View {
                         VStack {
                             switch selectedTab {
                             case 0:
-                                ArtworkGridView(artworks: (showPrivateArtworks ? profileVM.artworks?.privateArtworks : profileVM.artworks?.publicArtworks) ?? [], showPrivateArtworksCard: profileVM.isOwnProfile, showPrivateArtworks: $showPrivateArtworks)
-                                    .onAppear {
-                                        Task {
-                                            profileVM.artworks = await profileVM.getUserArtworks(for: u.id) ?? nil
-                                        }
+                                ArtworkGridView(
+                                    artworks: (showPrivateArtworks ? profileVM.artworks?.privateArtworks : profileVM.artworks?.publicArtworks) ?? [],
+                                    showPrivateArtworksCard: profileVM.isOwnProfile,
+                                    showPrivateArtworks: $showPrivateArtworks
+                                )
+                                .onAppear {
+                                    Task {
+                                        profileVM.artworks = await profileVM.getUserArtworks(for: u.id) ?? nil
                                     }
+                                }
                                 
                             case 1:
                                 // Favorites
-                                ArtworkGridView(artworks: ArtworkCardData.fromFavorites(profileVM.favoriteArtworks ?? []), showPrivateArtworks: $showPrivateArtworks)
-                                    .onAppear {
-                                        Task {
-                                            profileVM.favoriteArtworks = await profileVM.getFavoriteArtworks(for: u.id) ?? nil
-                                        }
+                                ArtworkGridView(
+                                    artworks: ArtworkCardData.fromFavorites(profileVM.favoriteArtworks ?? []),
+                                    showPrivateArtworks: $showPrivateArtworks
+                                )
+                                .onAppear {
+                                    Task {
+                                        profileVM.favoriteArtworks = await profileVM.getFavoriteArtworks(for: u.id) ?? nil
                                     }
+                                }
                             case 2:
                                 BiographyView(text: profileVM.profileUser?.biography ?? "")
                                     .foregroundColor(.white)

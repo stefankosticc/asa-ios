@@ -25,13 +25,6 @@ struct UpdateUserBiographyRequest: Codable {
     let biography: String
 }
 
-struct UserSearchResponse: Codable, Identifiable {
-    let id: Int
-    let name: String
-    let userName: String
-    let profilePhoto: String
-}
-
 struct UpdateUserProfileRequest: Codable {
     let name: String
     let removePhoto: Bool
