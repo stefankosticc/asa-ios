@@ -13,7 +13,6 @@ struct DiscoverView: View {
     
     @StateObject private var discoverVM = DiscoverViewModel()
     @State private var discoverData: DiscoverData? = nil
-//    @State private var discoverArtworks: [DiscoverArtworkResponse]? = nil
     
     
     var body: some View {

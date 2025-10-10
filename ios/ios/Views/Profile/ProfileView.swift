@@ -13,7 +13,11 @@ struct ProfileView: View {
     @State private var showPrivateArtworks: Bool = false
     @State private var showSettings = false
     
-    init() {
+    var profileUser: (any SearchableUser)?
+    
+    init(of user: (any SearchableUser)? = nil) {
+        self.profileUser = user
+        
         UISegmentedControl.appearance().backgroundColor = UIColor.cBlackHighlight
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.gray], for: .normal)
@@ -33,16 +37,18 @@ struct ProfileView: View {
                     }
                 } else if let u = profileVM.profileUser {
                     ScrollView(showsIndicators: false) {
-                        HStack() {
-                            Spacer()
-                            Button (action: {
-                                showSettings = true
-                            }, label: {
-                                Image(systemName: "gearshape")
-                                    .font(.body)
-                                    .foregroundStyle(.cGrayLight)
-                                    .padding(.trailing, 10)
-                            })
+                        if profileVM.isOwnProfile {
+                            HStack() {
+                                Spacer()
+                                Button (action: {
+                                    showSettings = true
+                                }, label: {
+                                    Image(systemName: "gearshape")
+                                        .font(.body)
+                                        .foregroundStyle(.cGrayLight)
+                                        .padding(.trailing, 10)
+                                })
+                            }
                         }
                         
                         HStack(spacing: 40) {
@@ -91,21 +97,28 @@ struct ProfileView: View {
                         VStack {
                             switch selectedTab {
                             case 0:
-                                ArtworkGridView(artworks: (showPrivateArtworks ? profileVM.artworks?.privateArtworks : profileVM.artworks?.publicArtworks) ?? [], showPrivateArtworksCard: profileVM.isOwnProfile, showPrivateArtworks: $showPrivateArtworks)
-                                    .onAppear {
-                                        Task {
-                                            profileVM.artworks = await profileVM.getUserArtworks(for: u.id) ?? nil
-                                        }
+                                ArtworkGridView(
+                                    artworks: (showPrivateArtworks ? profileVM.artworks?.privateArtworks : profileVM.artworks?.publicArtworks) ?? [],
+                                    showPrivateArtworksCard: profileVM.isOwnProfile,
+                                    showPrivateArtworks: $showPrivateArtworks
+                                )
+                                .onAppear {
+                                    Task {
+                                        profileVM.artworks = await profileVM.getUserArtworks(for: u.id) ?? nil
                                     }
+                                }
                                 
                             case 1:
                                 // Favorites
-                                ArtworkGridView(artworks: ArtworkCardData.fromFavorites(profileVM.favoriteArtworks ?? []), showPrivateArtworks: $showPrivateArtworks)
-                                    .onAppear {
-                                        Task {
-                                            profileVM.favoriteArtworks = await profileVM.getFavoriteArtworks(for: u.id) ?? nil
-                                        }
+                                ArtworkGridView(
+                                    artworks: ArtworkCardData.fromFavorites(profileVM.favoriteArtworks ?? []),
+                                    showPrivateArtworks: $showPrivateArtworks
+                                )
+                                .onAppear {
+                                    Task {
+                                        profileVM.favoriteArtworks = await profileVM.getFavoriteArtworks(for: u.id) ?? nil
                                     }
+                                }
                             case 2:
                                 BiographyView(text: profileVM.profileUser?.biography ?? "")
                                     .foregroundColor(.white)
@@ -122,6 +135,11 @@ struct ProfileView: View {
             }
             .onAppear {
                 Task {
+                    if let user = profileUser {
+                        if let data = await profileVM.getUserByUsername(user.userName) {
+                            profileVM.profileUser = data
+                        }
+                    }
                     // if user is not passed to the ProfileView get the logged in user
                     if let data = await profileVM.getLoggedInUser() {
                         profileVM.loggedInUser = data

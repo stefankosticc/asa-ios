@@ -44,6 +44,21 @@ class ProfileViewModel : ObservableObject {
         return nil
     }
     
+    func getUserByUsername(_ username: String) async -> User? {
+        do {
+            isLoading = true
+            let response: User = try await api.get(endpoint: "user/username/\(username)")
+            isLoading = false
+            return response
+        } catch let APIServiceError.httpError(_, message) {
+            self.errorMessage = message ?? "Unknown error"
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+        isLoading = false
+        return nil
+    }
+    
     // Returns artworks posted by user with userId
     func getUserArtworks(for userId: Int) async -> UserArtworksResponse? {
         do {
