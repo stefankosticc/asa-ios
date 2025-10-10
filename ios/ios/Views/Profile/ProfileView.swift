@@ -13,7 +13,11 @@ struct ProfileView: View {
     @State private var showPrivateArtworks: Bool = false
     @State private var showSettings = false
     
-    init() {
+    var profileUser: (any SearchableUser)?
+    
+    init(of user: (any SearchableUser)? = nil) {
+        self.profileUser = user
+        
         UISegmentedControl.appearance().backgroundColor = UIColor.cBlackHighlight
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.gray], for: .normal)
@@ -131,6 +135,11 @@ struct ProfileView: View {
             }
             .onAppear {
                 Task {
+                    if let user = profileUser {
+                        if let data = await profileVM.getUserByUsername(user.userName) {
+                            profileVM.profileUser = data
+                        }
+                    }
                     // if user is not passed to the ProfileView get the logged in user
                     if let data = await profileVM.getLoggedInUser() {
                         profileVM.loggedInUser = data

@@ -11,6 +11,10 @@ protocol Searchable: Identifiable {
     var id: Int { get }
 }
 
+protocol SearchableUser: Searchable {
+    var userName: String { get }
+}
+
 struct ArtworkSearchResponse : Codable, Identifiable, Searchable {
     let id: Int
     let title: String
@@ -25,7 +29,7 @@ struct ArtworkSearchResponse : Codable, Identifiable, Searchable {
     let galleryName: String?
 }
 
-struct UserSearchResponse: Codable, Identifiable, Searchable {
+struct UserSearchResponse: Codable, Identifiable, SearchableUser {
     let id: Int
     let name: String
     let userName: String

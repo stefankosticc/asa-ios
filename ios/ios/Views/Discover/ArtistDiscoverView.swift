@@ -13,15 +13,18 @@ struct ArtistDiscoverView: View {
     @State var artist: TopArtistResponse
     
     var body: some View {
-        VStack(spacing: 10){
-            ProfilePhoto(url: artist.profilePhoto, size: 90)
-            
-            Text(artist.name)
-                .font(.subheadline)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
+        NavigationLink(destination: ProfileView(of: artist)) {
+            VStack(spacing: 10){
+                ProfilePhoto(url: artist.profilePhoto, size: 90)
+                
+                Text(artist.name)
+                    .font(.subheadline)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(width: 110)
         }
-        .frame(width: 110)
+        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
     }
 }
 
