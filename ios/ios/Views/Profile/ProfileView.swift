@@ -19,6 +19,7 @@ struct ProfileView: View {
         self.profileUser = user
         
         UISegmentedControl.appearance().backgroundColor = UIColor.cBlackHighlight
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor.white
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.gray], for: .normal)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ArtworkCardData : Codable, Identifiable {
+struct ArtworkCardData : Codable, Identifiable, Searchable {
     let id: Int
     let title: String
     let image: String
@@ -47,3 +47,38 @@ extension ArtworkCardData {
     }
 }
 
+struct Artwork : Codable {
+    let id: Int
+    let title: String
+    let story: String
+    let image: String
+    let date: String
+    let tipsAndTricks: String
+    let isPrivate: Bool
+    let isOnSale: Bool
+    let price: Int?
+    let currency: Currency
+    let createdByArtistId: Int
+    let createdByArtistUserName: String
+    let postedByUserId: Int
+    let postedByUserName: String
+    let cityId: Int?
+    let cityName: String?
+    let galleryId: Int?
+    let galleryName: String?
+    let isLikedByLoggedInUser: Bool?
+    let color: String?
+}
+
+struct ArtworkRequest {
+    let title: String
+    let story: String
+    let date: Date
+    let tipsAndTricks: String
+    let isPrivate: Bool
+    let createdByArtistId: Int
+    let postedByUserId: Int
+    let cityId: Int?
+    let galleryId: Int?
+    let color: String?
+}

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Formatter{
+class Formatter {
     struct Threshold {
         let value: Double
         let suffix: String
@@ -36,5 +36,15 @@ class Formatter{
         }
         
         return "\(count)"
+    }
+    
+    private static let yyyyMMdd: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    static func formatDate(_ date: Date) -> String {
+        yyyyMMdd.string(from: date)
     }
 }

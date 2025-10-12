@@ -35,3 +35,8 @@ struct UserSearchResponse: Codable, Identifiable, SearchableUser {
     let userName: String
     let profilePhoto: String
 }
+
+struct SearchableAuction: Searchable {
+    let auction: HighStakesAuctionResponse
+    var id: Int { auction.artworkId }
+}
