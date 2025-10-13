@@ -13,6 +13,7 @@ struct BiographyView: View {
     
     var body: some View {
         Text(AttributedString.fromHTML(text))
+            .padding(.bottom)
     }
 }
 

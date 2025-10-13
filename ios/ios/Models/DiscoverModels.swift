@@ -25,7 +25,7 @@ struct HighStakesAuctionResponse: Codable, Identifiable {
     var id: Int { auctionId }
 }
 
-protocol DiscoverArtworkProtocol: Identifiable {
+protocol DiscoverArtworkProtocol: Identifiable, Searchable {
     var id: Int { get }
     var title: String { get }
     var image: String { get }

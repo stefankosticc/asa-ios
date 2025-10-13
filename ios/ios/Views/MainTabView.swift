@@ -57,19 +57,19 @@ struct MainTabView: View {
             }
             .tag(2)
             
-            DiscoverView()
+            ArtworkView(isNew: true)
                 .tabItem {
-                    Image(systemName: "bubble.fill")
-                    Text("Chat")
+                    Image(systemName: "plus.square.fill")
+                    Text("Add")
                 }
                 .tag(3)
             
             DiscoverView()
                 .tabItem {
-                    Image(systemName: "bell.badge.fill")
-                    Text("Notifications")
+                    Image(systemName: "bubble.fill")
+                    Text("Chat")
                 }
-                .tag(3)
+                .tag(4)
         }
         .accentColor(.cPurple)   
     }

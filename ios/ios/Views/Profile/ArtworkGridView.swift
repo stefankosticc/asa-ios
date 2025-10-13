@@ -12,32 +12,34 @@ struct ArtworkCardView: View {
     var artwork: ArtworkCardData
     
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            GeometryReader { geo in
-                KFImage(URL(string: "\(Constants.BACKEND_URL)\(artwork.image)"))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: geo.size.width)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .clipped()
+        NavigationLink(destination: ArtworkView(artwork: artwork)) {
+            ZStack(alignment: .bottomLeading) {
+                GeometryReader { geo in
+                    KFImage(URL(string: "\(Constants.BACKEND_URL)\(artwork.image)"))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: geo.size.width)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipped()
+                }
+                
+                LinearGradient(
+                    gradient: Gradient(colors: [Color.black.opacity(0.8), Color.clear]),
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                
+                Text(artwork.title)
+                    .foregroundStyle(.white)
+                    .font(.subheadline)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .lineLimit(2)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 10)
             }
-            
-            LinearGradient(
-                gradient: Gradient(colors: [Color.black.opacity(0.8), Color.clear]),
-                startPoint: .bottom,
-                endPoint: .top
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            
-            Text(artwork.title)
-                .foregroundStyle(.white)
-                .font(.subheadline)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                .lineLimit(2)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 10)
+            .frame(height: 200)
         }
-        .frame(height: 200)
     }
 }
 
