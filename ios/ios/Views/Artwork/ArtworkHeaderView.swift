@@ -8,45 +8,67 @@
 import SwiftUI
 
 struct ArtworkHeaderView: View {
-    @State private var isLiked: Bool = false
-    @State private var isPrivate: Bool = false
-    
     @ObservedObject var artworkVM: ArtworkViewModel
     var isNew: Bool
     var loggedInUserId: Int?
+    @Binding var artworkRequest: ArtworkRequest
     
     var body: some View {
         HStack(spacing: 10) {
-            Text(artworkVM.artwork?.title ?? "-")
-                .lineLimit(4)
-                .font(.title)
-                .bold()
+            if artworkVM.isEditing || isNew {
+                TextField("Artwork Title", text: $artworkRequest.title, axis: .vertical)
+                    .lineLimit(1...6)
+                    .font(.title)
+                    .bold()
+                    .autocorrectionDisabled()
+                    .tint(.cPurple)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(.clear)
+                            .stroke(.cGray)
+                    )
+            } else {
+                Text(artworkVM.artwork?.title ?? "-")
+                    .lineLimit(4)
+                    .font(.title)
+                    .bold()
+            }
             
             Spacer()
             
             if !isNew {
                 Button(action: {
-                    isLiked.toggle()
+                    artworkVM.isLiked.toggle()
                 }, label: {
-                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                    Image(systemName: artworkVM.isLiked ? "heart.fill" : "heart")
                         .font(.title3)
-                        .foregroundStyle(isLiked ? .cRed : .cGrayLight)
+                        .foregroundStyle(artworkVM.isLiked ? .cRed : .cGrayLight)
                 })
             }
             
             if artworkVM.isOwnArtwork || isNew {
                 Button(action: {
-                    isPrivate.toggle()
+                    artworkVM.isPrivate.toggle()
+                    artworkRequest.isPrivate.toggle()
                 }, label: {
-                    Image(systemName: isPrivate ? "lock" : "lock.open")
+                    Image(systemName: artworkVM.isPrivate ? "lock" : "lock.open")
                         .font(.title3)
                         .foregroundStyle(.cGrayLight)
                 })
                 
                 if !isNew {
-                    Image(systemName: "pencil")
-                        .font(.title3)
-                        .foregroundStyle(.cGrayLight)
+                    Button {
+                        artworkVM.isEditing.toggle()
+                        if let artworkDataToEdit = artworkVM.artwork {
+                            artworkRequest = ArtworkRequest(from: artworkDataToEdit)
+                        }
+                    } label: {
+                        Image(systemName: "pencil")
+                            .font(.title3)
+                            .foregroundStyle(.cGrayLight)
+                    }
                     
                     Menu {
                         Button("Put On Sale") {}
@@ -65,10 +87,8 @@ struct ArtworkHeaderView: View {
         }
         .onAppear {
             Task {
-                if let artwork = artworkVM.artwork, (loggedInUserId != nil) {
+                if loggedInUserId != nil {
                     artworkVM.checkOwnership(for: loggedInUserId!)
-                    self.isLiked = artwork.isLikedByLoggedInUser ?? false
-                    self.isPrivate = artwork.isPrivate
                 }
             }
         }
@@ -76,5 +96,5 @@ struct ArtworkHeaderView: View {
 }
 
 #Preview {
-    ArtworkView()
+    ArtworkView(isNew: true)
 }

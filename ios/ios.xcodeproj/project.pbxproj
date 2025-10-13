@@ -43,6 +43,7 @@
 		5BBA03AD2E900ACD001B1EE3 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA03AC2E900ACD001B1EE3 /* DiscoverView.swift */; };
 		5BBA3E8F2E963F4A007B2B2D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA3E8E2E963F4A007B2B2D /* SettingsView.swift */; };
 		5BBA3E912E9644EE007B2B2D /* AccountSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA3E902E9644EE007B2B2D /* AccountSettingsView.swift */; };
+		5BCC48062E9CF44500343FCE /* ArtworkEditTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC48052E9CF44500343FCE /* ArtworkEditTextFieldStyle.swift */; };
 		5BCEB0682E98EBFC001ABCB2 /* SearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEB0672E98EBFC001ABCB2 /* SearchModels.swift */; };
 		5BCEB06A2E98F31C001ABCB2 /* CityModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEB0692E98F31C001ABCB2 /* CityModels.swift */; };
 		5BCEB06C2E98F379001ABCB2 /* GalleryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCEB06B2E98F379001ABCB2 /* GalleryModels.swift */; };
@@ -117,6 +118,7 @@
 		5BBA03AC2E900ACD001B1EE3 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		5BBA3E8E2E963F4A007B2B2D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5BBA3E902E9644EE007B2B2D /* AccountSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsView.swift; sourceTree = "<group>"; };
+		5BCC48052E9CF44500343FCE /* ArtworkEditTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkEditTextFieldStyle.swift; sourceTree = "<group>"; };
 		5BCEB0672E98EBFC001ABCB2 /* SearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModels.swift; sourceTree = "<group>"; };
 		5BCEB0692E98F31C001ABCB2 /* CityModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityModels.swift; sourceTree = "<group>"; };
 		5BCEB06B2E98F379001ABCB2 /* GalleryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryModels.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			children = (
 				5B2589562E8D197200FC7E99 /* AuthTextFieldStyle.swift */,
 				5BAF10372E8F025900C868C5 /* ErrorTextStyle.swift */,
+				5BCC48052E9CF44500343FCE /* ArtworkEditTextFieldStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				5BAA83262E89D1FD0055B794 /* LogInView.swift in Sources */,
 				5BF228002E993871009843AD /* ArtworkViewModel.swift in Sources */,
 				5B6A8D242E97F05900D31586 /* SearchView.swift in Sources */,
+				5BCC48062E9CF44500343FCE /* ArtworkEditTextFieldStyle.swift in Sources */,
 				5B6A8D2C2E98095100D31586 /* SearchCardWithIconView.swift in Sources */,
 				5BF20FE42E9A5A300024FE10 /* ArtworkHeaderView.swift in Sources */,
 				5B2589572E8D197200FC7E99 /* AuthTextFieldStyle.swift in Sources */,

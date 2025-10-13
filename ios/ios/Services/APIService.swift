@@ -36,6 +36,7 @@ struct APIErrorResponse: Decodable {
 }
 
 struct EmptyResponse: Decodable {}
+struct EmptyEncodable: Encodable {}
 
 private extension Data {
     mutating func append(_ string: String) {
@@ -59,6 +60,8 @@ protocol APIServiceProtocol {
     func saveTokens(accessToken: String, refreshToken: String) async
     
     func putWithImage<Body: Encodable>(endpoint: String, body: Body, image: Data?, imageFieldName: String) async throws
+    func postWithImage<Body: Encodable>(endpoint: String, body: Body, image: Data, imageFieldName: String) async throws
+    func postWithImage<T: Decodable>(endpoint: String, image: Data, imageFieldName: String, decodeAsText: Bool) async throws -> T
 }
 
 
@@ -211,7 +214,8 @@ class APIService: APIServiceProtocol {
         body: Body,
         imageFieldName: String = "file",
         fileName: String = "image",
-        method: String // PUT or POST
+        method: String, // PUT or POST
+        decodeAsText: Bool = false // when backend returns raw text
     ) async throws -> T {
         guard let url = URL(string: "\(baseURL)/\(endpoint)") else {
             throw APIServiceError.invalidURL
@@ -293,6 +297,13 @@ class APIService: APIServiceProtocol {
             return EmptyResponse() as! T
         }
         
+        if decodeAsText {
+            guard let text = String(data: data, encoding: .utf8) else {
+                throw APIServiceError.invalidResponse
+            }
+            return text as! T
+        }
+        
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -317,5 +328,14 @@ class APIService: APIServiceProtocol {
     
     func putWithImage<Body: Encodable>(endpoint: String, body: Body, image: Data?, imageFieldName: String) async throws {
         let _: EmptyResponse = try await requestWithImage(endpoint: endpoint, imageData: image, body: body, imageFieldName: imageFieldName, method: "PUT")
+    }
+    
+    func postWithImage<Body: Encodable>(endpoint: String, body: Body, image: Data, imageFieldName: String) async throws {
+        let _: EmptyResponse = try await requestWithImage(endpoint: endpoint, imageData: image, body: body, imageFieldName: imageFieldName, method: "POST")
+    }
+    
+    func postWithImage<T: Decodable>(endpoint: String, image: Data, imageFieldName: String, decodeAsText: Bool = false) async throws -> T {
+        let emptyBody: EmptyEncodable = EmptyEncodable()
+        return try await requestWithImage(endpoint: endpoint, imageData: image, body: emptyBody, imageFieldName: imageFieldName , method: "POST", decodeAsText: decodeAsText)
     }
 }

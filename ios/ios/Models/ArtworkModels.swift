@@ -70,15 +70,34 @@ struct Artwork : Codable {
     let color: String?
 }
 
-struct ArtworkRequest {
-    let title: String
-    let story: String
-    let date: Date
-    let tipsAndTricks: String
+struct ArtworkRequest : Codable {
+    var title: String
+    var story: String
+    var date: String
+    var tipsAndTricks: String
+    var isPrivate: Bool
+    var createdByArtistId: Int
+    var postedByUserId: Int
+    var cityId: Int?
+    var galleryId: Int?
+    var color: String?
+}
+
+extension ArtworkRequest {
+    init(from artwork: Artwork) {
+        self.title = artwork.title
+        self.story = artwork.story
+        self.date = artwork.date
+        self.tipsAndTricks = artwork.tipsAndTricks
+        self.isPrivate = artwork.isPrivate
+        self.createdByArtistId = artwork.createdByArtistId
+        self.postedByUserId = artwork.postedByUserId
+        self.cityId = artwork.cityId
+        self.galleryId = artwork.galleryId
+        self.color = artwork.color
+    }
+}
+
+struct ChangeArtworkVisibilityRequest : Codable {
     let isPrivate: Bool
-    let createdByArtistId: Int
-    let postedByUserId: Int
-    let cityId: Int?
-    let galleryId: Int?
-    let color: String?
 }
