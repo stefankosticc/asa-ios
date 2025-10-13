@@ -81,6 +81,19 @@ struct ArtworkRequest : Codable {
     var cityId: Int?
     var galleryId: Int?
     var color: String?
+    
+    mutating func reset() {
+        self.title = ""
+        self.story = ""
+        self.date = ""
+        self.tipsAndTricks = ""
+        self.isPrivate = false
+        self.createdByArtistId = 0
+        self.postedByUserId = 0
+        self.cityId = nil
+        self.galleryId = nil
+        self.color = nil
+    }
 }
 
 extension ArtworkRequest {

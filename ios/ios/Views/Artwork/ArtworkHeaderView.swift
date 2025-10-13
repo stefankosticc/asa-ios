@@ -12,6 +12,8 @@ struct ArtworkHeaderView: View {
     var isNew: Bool
     var loggedInUserId: Int?
     @Binding var artworkRequest: ArtworkRequest
+    @Environment(\.dismiss) private var dismiss
+    @State private var showDeleteAlert = false
     
     var body: some View {
         HStack(spacing: 10) {
@@ -40,7 +42,15 @@ struct ArtworkHeaderView: View {
             
             if !isNew {
                 Button(action: {
-                    artworkVM.isLiked.toggle()
+                    Task {
+                        if let artworkId = artworkVM.artwork?.id {
+                            if artworkVM.isLiked {
+                                await artworkVM.dislikeArtwork(artworkId: artworkId)
+                            } else {
+                                await artworkVM.likeArtwork(artworkId: artworkId)
+                            }
+                        }
+                    }
                 }, label: {
                     Image(systemName: artworkVM.isLiked ? "heart.fill" : "heart")
                         .font(.title3)
@@ -50,8 +60,16 @@ struct ArtworkHeaderView: View {
             
             if artworkVM.isOwnArtwork || isNew {
                 Button(action: {
-                    artworkVM.isPrivate.toggle()
-                    artworkRequest.isPrivate.toggle()
+                    Task {
+                        if !isNew && !artworkVM.isEditing {
+                            if let artworkId = artworkVM.artwork?.id {
+                                await artworkVM.changeArtworkVisibility(artworkId: artworkId, makePrivate: !artworkVM.isPrivate)
+                            }
+                        } else {
+                            artworkVM.isPrivate.toggle()
+                            artworkRequest.isPrivate.toggle()
+                        }
+                    }
                 }, label: {
                     Image(systemName: artworkVM.isPrivate ? "lock" : "lock.open")
                         .font(.title3)
@@ -64,6 +82,9 @@ struct ArtworkHeaderView: View {
                         if let artworkDataToEdit = artworkVM.artwork {
                             artworkRequest = ArtworkRequest(from: artworkDataToEdit)
                         }
+                        if !artworkVM.isEditing {
+                            artworkVM.selectedImage = nil
+                        }
                     } label: {
                         Image(systemName: "pencil")
                             .font(.title3)
@@ -75,13 +96,29 @@ struct ArtworkHeaderView: View {
                         Button("Remove From Sale") {}
                         Button("Auction Analytics") {}
                         Button("Transfer") {}
-                        Button("Delete", role: .destructive) {}
+                        Button("Delete", role: .destructive) { showDeleteAlert = true }
                     } label: {
                         Image(systemName: "ellipsis")
                             .rotationEffect(.degrees(90))
                             .font(.title3)
                             .foregroundStyle(.cGrayLight)
                     }
+                    .alert("Are you sure you want to delete this artwork?", isPresented: $showDeleteAlert) {
+                        Button("Delete", role: .destructive) {
+                            Task {
+                                if let artworkId = artworkVM.artwork?.id {
+                                    let success = await artworkVM.deleteArtwork(artworkId: artworkId)
+                                    if success {
+                                        dismiss()
+                                    }
+                                }
+                            }
+                        }
+                        Button("Cancel", role: .cancel) { }
+                    } message: {
+                        Text("This cannot be undone!")
+                    }
+
                 }
             }
         }

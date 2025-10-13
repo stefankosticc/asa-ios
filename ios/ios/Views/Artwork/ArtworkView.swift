@@ -15,7 +15,6 @@ struct ArtworkView: View {
     
     var artwork: (any Searchable)?
     var isNew: Bool = false
-    @State private var selectedImage: UIImage? = nil
     
     @State private var artworkRequest = ArtworkRequest(
         title: "",
@@ -29,6 +28,65 @@ struct ArtworkView: View {
         galleryId: nil,
         color: nil
     )
+    
+    private func saveArtwork() async {
+        if artworkRequest.story.isEmpty {
+            artworkRequest.story = "<p></p>"
+        }
+        
+        if artworkRequest.tipsAndTricks.isEmpty {
+            artworkRequest.tipsAndTricks = "<p></p>"
+        }
+        
+        if isNew {
+            await addNewArtwork()
+        } else if let existingArtwork = artworkVM.artwork {
+            await updateExistingArtwork(existingArtwork)
+        }
+    }
+    
+    private func addNewArtwork() async {
+        if artworkVM.selectedImage == nil {
+            // TODO: Add alert for required image
+            return
+        }
+        artworkRequest.postedByUserId = profileVM.loggedInUser?.id ?? -1
+        artworkRequest.createdByArtistId = profileVM.loggedInUser?.id ?? -1
+        
+        let imageData = artworkVM.selectedImage?.jpegData(compressionQuality: 1)
+        
+        if let imageData, await artworkVM.addNewArtwork(data: artworkRequest, artworkImage: imageData) {
+            // TODO: Add alert on success
+            // navigate to users profile
+        }
+    }
+    
+    private func updateExistingArtwork(_ existingArtwork: Artwork) async {
+        artworkRequest.postedByUserId = existingArtwork.postedByUserId
+        artworkRequest.createdByArtistId = existingArtwork.createdByArtistId
+        artworkRequest.date = existingArtwork.date
+        
+        let imageData = artworkVM.selectedImage?.jpegData(compressionQuality: 1)
+        
+        if await artworkVM.updateArtwork(artworkId: existingArtwork.id, data: artworkRequest, artworkImage: imageData) {
+            // image and cache handling
+            if imageData != nil {
+                let key = "\(Constants.BACKEND_URL)\(existingArtwork.image)"
+                do {
+                    try await KingfisherManager.shared.cache.removeImage(forKey: key)
+                } catch {
+                    print("Error removing cached artwork image after updating")
+                }
+            }
+            
+            // refetch artwork
+            if let data = await artworkVM.getArtwork(artworkId: existingArtwork.id) {
+                artworkVM.artwork = data
+            }
+            
+            artworkVM.isEditing = false
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -48,7 +106,7 @@ struct ArtworkView: View {
                             isNew: isNew,
                             artworkRequest: $artworkRequest,
                             artworkVM: artworkVM,
-                            selectedImage: $selectedImage
+                            selectedImage: $artworkVM.selectedImage
                         )
                         
                         VStack(alignment: .leading, spacing: 20) {
@@ -146,7 +204,13 @@ struct ArtworkView: View {
                                     Spacer()
                                     
                                     Button(action: {
-                                        artworkVM.isEditing = false
+                                        if isNew {
+                                            artworkRequest.reset()
+                                        } else if artworkVM.isEditing {
+                                            artworkVM.isEditing = false
+                                            artworkRequest.color = nil
+                                        }
+                                        artworkVM.selectedImage = nil
                                     }, label: {
                                         Text("Cancel")
                                             .foregroundStyle(.black)
@@ -160,32 +224,7 @@ struct ArtworkView: View {
                                     
                                     Button(action: {
                                         Task {
-                                            if isNew {
-                                                if selectedImage == nil {
-                                                    // TODO: Add alert for required image
-                                                    return
-                                                }
-                                                artworkRequest.postedByUserId = profileVM.loggedInUser?.id ?? -1
-                                                artworkRequest.createdByArtistId = profileVM.loggedInUser?.id ?? -1
-                                                
-                                                if artworkRequest.story.isEmpty {
-                                                    artworkRequest.story = "<p></p>"
-                                                }
-                                                
-                                                if artworkRequest.tipsAndTricks.isEmpty {
-                                                    artworkRequest.tipsAndTricks = "<p></p>"
-                                                }
-                                                
-                                                let imageData = selectedImage?.jpegData(compressionQuality: 1)
-                                                
-                                                if let imageData, await artworkVM.addNewArtwork(data: artworkRequest, artworkImage: imageData) {
-                                                    // TODO: Add alert on success
-                                                   // navigate to users profile
-                                                }
-                                            } else if let existingArtwork = artwork {
-                                                
-                                                artworkVM.isEditing = false
-                                            }
+                                            await saveArtwork()
                                         }
                                     }, label: {
                                         Text("Save")
