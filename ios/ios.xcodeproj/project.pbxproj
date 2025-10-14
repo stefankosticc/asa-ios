@@ -53,6 +53,8 @@
 		5BDB70732E8666FD00EB6C83 /* iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDB70722E8666FD00EB6C83 /* iosTests.swift */; };
 		5BDB707D2E8666FD00EB6C83 /* iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDB707C2E8666FD00EB6C83 /* iosUITests.swift */; };
 		5BDB707F2E8666FD00EB6C83 /* iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDB707E2E8666FD00EB6C83 /* iosUITestsLaunchTests.swift */; };
+		5BE48A582E9EBCAC00BF4B8F /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 5BE48A572E9EBCAC00BF4B8F /* AlertToast */; };
+		5BE48A5A2E9EBCC100BF4B8F /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE48A592E9EBCC100BF4B8F /* AlertViewModel.swift */; };
 		5BECDCEF2E8AF7BA0092C6D9 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BECDCEE2E8AF7BA0092C6D9 /* SignUpView.swift */; };
 		5BF20FE02E9A47E70024FE10 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF20FDF2E9A47E70024FE10 /* ColorExtension.swift */; };
 		5BF20FE22E9A4F2B0024FE10 /* ArtworkImageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF20FE12E9A4F2B0024FE10 /* ArtworkImageContainerView.swift */; };
@@ -131,6 +133,7 @@
 		5BDB70782E8666FD00EB6C83 /* iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BDB707C2E8666FD00EB6C83 /* iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosUITests.swift; sourceTree = "<group>"; };
 		5BDB707E2E8666FD00EB6C83 /* iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5BE48A592E9EBCC100BF4B8F /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		5BECDCEE2E8AF7BA0092C6D9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		5BF20FDF2E9A47E70024FE10 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		5BF20FE12E9A4F2B0024FE10 /* ArtworkImageContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkImageContainerView.swift; sourceTree = "<group>"; };
@@ -149,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BE48A582E9EBCAC00BF4B8F /* AlertToast in Frameworks */,
 				5B52B58E2E94003E001CB154 /* SVGKit in Frameworks */,
 				5B52B58B2E93FE8D001CB154 /* Kingfisher in Frameworks */,
 			);
@@ -280,6 +284,7 @@
 				5B55EE5E2E94F2240068474E /* ProfileViewModel.swift */,
 				5B6A8D252E97F0EE00D31586 /* SearchViewModel.swift */,
 				5BF227FF2E993871009843AD /* ArtworkViewModel.swift */,
+				5BE48A592E9EBCC100BF4B8F /* AlertViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 			packageProductDependencies = (
 				5B52B58A2E93FE8D001CB154 /* Kingfisher */,
 				5B52B58D2E94003E001CB154 /* SVGKit */,
+				5BE48A572E9EBCAC00BF4B8F /* AlertToast */,
 			);
 			productName = ios;
 			productReference = 5BDB705E2E8666FB00EB6C83 /* ios.app */;
@@ -474,6 +480,7 @@
 			packageReferences = (
 				5B52B5892E93FE8D001CB154 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				5B52B58C2E94003E001CB154 /* XCRemoteSwiftPackageReference "SVGKit" */,
+				5BE48A562E9EBCAC00BF4B8F /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 5BDB705F2E8666FB00EB6C83 /* Products */;
 			projectDirPath = "";
@@ -559,6 +566,7 @@
 				5B6A8D2C2E98095100D31586 /* SearchCardWithIconView.swift in Sources */,
 				5BF20FE42E9A5A300024FE10 /* ArtworkHeaderView.swift in Sources */,
 				5B2589572E8D197200FC7E99 /* AuthTextFieldStyle.swift in Sources */,
+				5BE48A5A2E9EBCC100BF4B8F /* AlertViewModel.swift in Sources */,
 				5B6A8D282E9802C700D31586 /* ArtworkSearchCardView.swift in Sources */,
 				5BAF10362E8EEFCA00C868C5 /* APIService.swift in Sources */,
 				5B55EE612E9507E30068474E /* ArtworkGridView.swift in Sources */,
@@ -908,6 +916,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		5BE48A562E9EBCAC00BF4B8F /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -920,6 +936,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5B52B58C2E94003E001CB154 /* XCRemoteSwiftPackageReference "SVGKit" */;
 			productName = SVGKit;
+		};
+		5BE48A572E9EBCAC00BF4B8F /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BE48A562E9EBCAC00BF4B8F /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

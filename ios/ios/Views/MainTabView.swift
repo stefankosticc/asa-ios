@@ -64,14 +64,17 @@ struct MainTabView: View {
                 }
                 .tag(3)
             
-            DiscoverView()
+            ZStack {
+                Color.black.ignoresSafeArea()
+                Text("⏳")
+            }
                 .tabItem {
                     Image(systemName: "bubble.fill")
                     Text("Chat")
                 }
                 .tag(4)
         }
-        .accentColor(.cPurple)   
+        .accentColor(.cPurple)
     }
 }
 

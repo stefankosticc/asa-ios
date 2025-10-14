@@ -18,6 +18,7 @@ class ProfileViewModel : ObservableObject {
     
     @Published var artworks: UserArtworksResponse? = nil
     @Published var favoriteArtworks: [FavoriteArtwork]? = nil
+    @Published var showSettings = false
     
     public var isOwnProfile: Bool {
         guard let me = loggedInUser, let viewing = profileUser else { return false }

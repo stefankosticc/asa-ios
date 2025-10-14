@@ -8,6 +8,7 @@
 import SwiftUI
 import PhotosUI
 import Kingfisher
+import AlertToast
 
 struct AccountSettingsView: View {
     @EnvironmentObject var profileVM: ProfileViewModel
@@ -21,6 +22,7 @@ struct AccountSettingsView: View {
     @State private var selectedImage: UIImage? = nil
     
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var profileAlertVM: AlertViewModel
     
     var body: some View {
         ZStack {
@@ -99,7 +101,6 @@ struct AccountSettingsView: View {
                             let imageData = selectedImage?.jpegData(compressionQuality: 1)
                             
                             if await profileVM.updateUserProfile(data: updateProfileData, profilePhoto: imageData) {
-                                // TODO: add an alert here
                                 
                                 let key = "\(Constants.BACKEND_URL)\("/api/user/\(profileVM.loggedInUser?.id ?? -1)/profile-photo")"
                                 do {
@@ -111,6 +112,10 @@ struct AccountSettingsView: View {
                                         if let data = await profileVM.getLoggedInUser() {
                                             profileVM.loggedInUser = data
                                             profileVM.profileUser = profileVM.loggedInUser
+                                            
+                                            // navigate to profile
+                                            profileVM.showSettings = false
+                                            profileAlertVM.alertToast = AlertToast(type: .complete(.green), title: "Updated", subTitle: nil)
                                         }
                                     }
                                 } catch {

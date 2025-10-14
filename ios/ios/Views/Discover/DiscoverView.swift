@@ -99,13 +99,13 @@ struct DiscoverView: View {
                     
                     Spacer()
                 }
-            }
-            .onAppear {
-                Task {
-                    if let data = await discoverVM.getDiscoverData() {
-                        self.discoverData = data
+                .onAppear {
+                    Task {
+                        if let data = await discoverVM.getDiscoverData() {
+                            self.discoverData = data
+                        }
+                        await discoverVM.discoverArtworks.loadMore()
                     }
-                    await discoverVM.discoverArtworks.loadMore()
                 }
             }
         }

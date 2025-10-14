@@ -7,10 +7,12 @@
 
 import SwiftUI
 import Kingfisher
+import AlertToast
 
 struct ArtworkView: View {
     @StateObject private var artworkVM = ArtworkViewModel()
     @StateObject private var profileVM = ProfileViewModel()
+    @StateObject private var artworkAlertVM = AlertViewModel()
     @Environment(\.dismiss) private var dismiss
     
     var artwork: (any Searchable)?
@@ -47,7 +49,7 @@ struct ArtworkView: View {
     
     private func addNewArtwork() async {
         if artworkVM.selectedImage == nil {
-            // TODO: Add alert for required image
+            artworkAlertVM.alertToast = AlertToast(displayMode: .hud, type: .error(.red), title: "Image is not selected!")
             return
         }
         artworkRequest.postedByUserId = profileVM.loggedInUser?.id ?? -1
@@ -56,8 +58,11 @@ struct ArtworkView: View {
         let imageData = artworkVM.selectedImage?.jpegData(compressionQuality: 1)
         
         if let imageData, await artworkVM.addNewArtwork(data: artworkRequest, artworkImage: imageData) {
-            // TODO: Add alert on success
-            // navigate to users profile
+            artworkRequest.reset()
+            artworkVM.selectedImage = nil
+            artworkAlertVM.alertToast = AlertToast(type: .complete(.green), title: "Artwork added")
+        } else if let error = artworkVM.errorMessage {
+            artworkAlertVM.alertToast = AlertToast(displayMode: .hud, type: .error(.red), title: error)
         }
     }
     
@@ -85,6 +90,8 @@ struct ArtworkView: View {
             }
             
             artworkVM.isEditing = false
+        } else if let error = artworkVM.errorMessage {
+            artworkAlertVM.alertToast = AlertToast(displayMode: .hud, type: .error(.red), title: error)
         }
     }
     
@@ -176,7 +183,14 @@ struct ArtworkView: View {
                                     .font(.title3)
                                     .bold()
                                 
-                                TextField("", text: $artworkRequest.story, axis: .vertical)
+                                TextField("", text: Binding(
+                                    get: {
+                                        artworkRequest.story == "<p></p>" ? "" : artworkRequest.story
+                                    },
+                                    set: { newValue in
+                                        artworkRequest.story = newValue
+                                    }
+                                ), axis: .vertical)
                                     .textFieldStyle(ArtworkEditTextFieldStyle(minLineLimit: 5, maxLineLimit: 14))
                             } else if let story = artworkVM.artwork?.story, story != "<p></p>" {
                                 Text("Story")
@@ -190,7 +204,14 @@ struct ArtworkView: View {
                                     .font(.title3)
                                     .bold()
                                 
-                                TextField("", text: $artworkRequest.tipsAndTricks, axis: .vertical)
+                                TextField("", text: Binding(
+                                    get: {
+                                        artworkRequest.tipsAndTricks == "<p></p>" ? "" : artworkRequest.tipsAndTricks
+                                    },
+                                    set: { newValue in
+                                        artworkRequest.tipsAndTricks = newValue
+                                    }
+                                ), axis: .vertical)
                                     .textFieldStyle(ArtworkEditTextFieldStyle(minLineLimit: 5, maxLineLimit: 14))
                             } else if let tips = artworkVM.artwork?.tipsAndTricks, tips != "<p></p>" {
                                 Text("Tips & Tricks")
@@ -252,6 +273,7 @@ struct ArtworkView: View {
         .foregroundStyle(.white)
         .toolbarBackground(.hidden, for: .navigationBar)
         .navigationBarBackButtonHidden()
+        .environmentObject(artworkAlertVM)
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: { dismiss() }, label: {
@@ -272,6 +294,9 @@ struct ArtworkView: View {
                     profileVM.loggedInUser = user
                 }
             }
+        }
+        .toast(isPresenting: $artworkAlertVM.show){
+            artworkAlertVM.alertToast
         }
     }
 }

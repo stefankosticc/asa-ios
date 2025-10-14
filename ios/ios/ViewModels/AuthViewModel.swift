@@ -26,6 +26,7 @@ class AuthViewModel : ObservableObject {
     @Published var loginForm = LoginForm()
     @Published var signUpForm = SignUpForm()
     @Published var errorMessage: String?
+    @Published var isLoading: Bool = false
     
     @AppStorage("isAuthenticated") private var isAuthenticated: Bool = false
     
@@ -48,9 +49,11 @@ class AuthViewModel : ObservableObject {
         )
         
         do {
+            isLoading = true
             let response: LoginResponse = try await api.post(endpoint: "auth/login", body: request)
             await api.saveTokens(accessToken: response.accessToken, refreshToken: response.refreshToken)
             
+            isLoading = false
             isAuthenticated = true
             return true
         } catch let APIServiceError.httpError(_, message) {
@@ -62,6 +65,7 @@ class AuthViewModel : ObservableObject {
             isAuthenticated = false
         }
         
+        isLoading = false
         return false
     }
     

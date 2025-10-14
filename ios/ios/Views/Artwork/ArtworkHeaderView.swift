@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ArtworkHeaderView: View {
     @ObservedObject var artworkVM: ArtworkViewModel
@@ -14,6 +15,8 @@ struct ArtworkHeaderView: View {
     @Binding var artworkRequest: ArtworkRequest
     @Environment(\.dismiss) private var dismiss
     @State private var showDeleteAlert = false
+    
+    @EnvironmentObject var artworkAlertVM: AlertViewModel
     
     var body: some View {
         HStack(spacing: 10) {
@@ -64,6 +67,7 @@ struct ArtworkHeaderView: View {
                         if !isNew && !artworkVM.isEditing {
                             if let artworkId = artworkVM.artwork?.id {
                                 await artworkVM.changeArtworkVisibility(artworkId: artworkId, makePrivate: !artworkVM.isPrivate)
+                                artworkAlertVM.alertToast = AlertToast(displayMode: .hud, type: .systemImage(artworkVM.isPrivate ? "lock" : "lock.open", .white), title: artworkVM.isPrivate ? "Made private" : "Made public")
                             }
                         } else {
                             artworkVM.isPrivate.toggle()

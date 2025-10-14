@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ProfileView: View {
     @State private var selectedTab = 0
     @StateObject private var profileVM = ProfileViewModel()
+    @StateObject private var profileAlertVM = AlertViewModel()
     @State private var showPrivateArtworks: Bool = false
-    @State private var showSettings = false
     
     var profileUser: (any SearchableUser)?
     
@@ -42,7 +43,7 @@ struct ProfileView: View {
                             HStack() {
                                 Spacer()
                                 Button (action: {
-                                    showSettings = true
+                                    profileVM.showSettings = true
                                 }, label: {
                                     Image(systemName: "gearshape")
                                         .font(.body)
@@ -150,8 +151,12 @@ struct ProfileView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showSettings) { SettingsView() }
+            .sheet(isPresented: $profileVM.showSettings) { SettingsView() }
             .environmentObject(profileVM)
+            .environmentObject(profileAlertVM)
+        }
+        .toast(isPresenting: $profileAlertVM.show){
+            profileAlertVM.alertToast
         }
     }
 }

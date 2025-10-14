@@ -85,7 +85,7 @@ struct ArtworkRequest : Codable {
     mutating func reset() {
         self.title = ""
         self.story = ""
-        self.date = ""
+        self.date = Date().formatted(date: .complete, time: .omitted)
         self.tipsAndTricks = ""
         self.isPrivate = false
         self.createdByArtistId = 0

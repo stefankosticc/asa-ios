@@ -32,6 +32,7 @@ struct ArtworkDiscoverCardView: View {
                     Text(artwork.title)
                         .foregroundStyle(.white)
                         .lineLimit(2)
+                        .multilineTextAlignment(.leading)
                     
                     Spacer()
                     
